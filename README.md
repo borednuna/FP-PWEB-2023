@@ -31,5 +31,6 @@ Project structure contains :
                 |-Db/
                 |-Security/
                 |-Web/
+            |-Application/
 |-templates/                    // contains html files that serves as template for the frontend
 ```
