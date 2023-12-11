@@ -54,21 +54,6 @@ CREATE TABLE IF NOT EXISTS `pengembalian` (
   FOREIGN KEY (`nomor_pengguna`) REFERENCES `pengguna` (`nomor_pengguna`)
 );
 
--- Table laporan anggota
-CREATE TABLE IF NOT EXISTS `laporan_anggota` (
-  `nomor_laporan` int(11) NOT NULL AUTO_INCREMENT,
-  `nomor_pengguna` int(11) NOT NULL,
-  `bulan` ENUM ('januari', 'februari', 'maret', 'april', 'mei', 'juni', 'juli', 'agustus', 'september', 'oktober', 'november', 'desember'),
-  `tahun` int(11) NOT NULL,
-  `tanggal_laporan` datetime NOT NULL,
-  `jumlah_peminjaman` int(11) NOT NULL,
-  `jumlah_pengembalian` int(11) NOT NULL,
-  `sisa_pinjaman` int(11) NOT NULL,
-  `updated_at` datetime NOT NULL,
-  PRIMARY KEY (`nomor_laporan`),
-  FOREIGN KEY (`nomor_pengguna`) REFERENCES `pengguna` (`nomor_pengguna`)
-);
-
 -- Table laporan keuangan ketua
 CREATE TABLE IF NOT EXISTS `laporan_keuangan_ketua` (
   `nomor_laporan` int(11) NOT NULL AUTO_INCREMENT,
@@ -80,3 +65,21 @@ CREATE TABLE IF NOT EXISTS `laporan_keuangan_ketua` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`nomor_laporan`)
 );
+
+-- Table laporan anggota
+CREATE TABLE IF NOT EXISTS `laporan_anggota` (
+  `nomor_laporan` int(11) NOT NULL AUTO_INCREMENT,
+  `nomor_pengguna` int(11) NOT NULL,
+  `nomor_laporan_keuangan_ketua` int(11),
+  `bulan` ENUM ('januari', 'februari', 'maret', 'april', 'mei', 'juni', 'juli', 'agustus', 'september', 'oktober', 'november', 'desember'),
+  `tahun` int(11) NOT NULL,
+  `tanggal_laporan` datetime NOT NULL,
+  `jumlah_peminjaman` int(11) NOT NULL,
+  `jumlah_pengembalian` int(11) NOT NULL,
+  `sisa_pinjaman` int(11) NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`nomor_laporan`),
+  FOREIGN KEY (`nomor_pengguna`) REFERENCES `pengguna` (`nomor_pengguna`)
+  FOREIGN KEY (`nomor_laporan_keuangan_ketua`) REFERENCES `laporan_keuangan_ketua` (`nomor_laporan`)
+);
+
