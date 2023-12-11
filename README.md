@@ -5,7 +5,7 @@ This project is made as final project of web programming subject 2023.
 | Name                               | NRP        |
 |------------------------------------|------------|
 | Hanun Shaka Puspa                  | 5025211051 |
-| Dimas Prihady Setyawan             | 50252111 84 |
+| Dimas Prihady Setyawan             | 5025211184 |
 
 ## App Architecture
 This project refers its architecture to [this github repository](https://github.com/gushakov/clean-php) and [this medium article](https://medium.com/unil-ci-software-engineering/clean-architecture-with-php-22de915a6c50) for implementation of clean architecture for native php.
