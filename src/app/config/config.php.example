@@ -1,0 +1,17 @@
+<!-- Username dan password disesuaikan pada pengaturan di database -->
+<?php
+
+namespace App\Config;
+
+class Config
+{
+    public $hostname = "";
+    public $username = "";
+    public $password = "";
+    public $dbname = "";
+
+    public function __construct()
+    {
+        $this->conn = mysqli_connect($this->hostname, $this->username, $this->password, $this->dbname);
+    }
+}
