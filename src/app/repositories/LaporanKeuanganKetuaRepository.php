@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\LaporanKeuanganKetua;
 use App\Config\Config;
+use App\Repositories\BulanEnum;
 
 class LaporanKeuanganKetuaRepository
 {
@@ -55,20 +56,5 @@ class LaporanKeuanganKetuaRepository
             );
         }
         return $laporanKeuanganKetua;
-    }
-
-    public function insert($laporan_keuangan_ketua)
-    {
-        $tanggal_laporan = $laporan_keuangan_ketua->tanggal_laporan->format('Y-m-d');
-
-        $query = "INSERT INTO laporan_keuangan_ketua VALUES (
-            '" . $laporan_keuangan_ketua->nomor_laporan_keuangan_ketua . "',
-            '" . $laporan_keuangan_ketua->nomor_pengguna . "',
-            '" . $tanggal_laporan . "',
-            '" . $laporan_keuangan_ketua->jumlah_peminjaman . "',
-            '" . $laporan_keuangan_ketua->jumlah_pengembalian . "'
-        )";
-        $result = mysqli_query($this->conn, $query);
-        return $result;
     }
 }

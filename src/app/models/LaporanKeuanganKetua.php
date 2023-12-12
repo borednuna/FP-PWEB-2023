@@ -4,12 +4,12 @@ namespace App\Models;
 
 class LaporanKeuanganKetua
 {
-    private int $nomor_laporan;
-    private string $bulan;
-    private int $tahun;
-    private \DateTime $tanggal_laporan;
-    private int $jumlah_peminjaman;
-    private int $jumlah_pengembalian;
+    public int $nomor_laporan;
+    public string $bulan;
+    public int $tahun;
+    public \DateTime $tanggal_laporan;
+    public int $jumlah_peminjaman;
+    public int $jumlah_pengembalian;
 
     public function __construct(
         int $nomor_laporan,

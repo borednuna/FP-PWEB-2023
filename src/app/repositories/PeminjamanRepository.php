@@ -71,9 +71,28 @@ class PeminjamanRepository
         return $peminjaman;
     }
 
-    public function getByBulanTahun($bulan, $tahun)
+    public function getPeminjamanById($id)
     {
-        $query = "SELECT * FROM peminjaman WHERE bulan = '" . $bulan . "' AND tahun = '" . $tahun . "'";
+        $query = "SELECT * FROM peminjaman WHERE nomor_peminjaman = $id";
+        $result = mysqli_query($this->conn, $query);
+        $row = mysqli_fetch_assoc($result);
+        $peminjaman = new Peminjaman(
+            $row['nomor_peminjaman'],
+            $row['nomor_pengguna'],
+            $row['tanggal_peminjaman'],
+            $row['jatuh_tempo'],
+            $row['jumlah_peminjaman'],
+            $row['bunga'],
+            $row['total_bayar']
+        );
+        return $peminjaman;
+    }
+
+    public function getByBulanTahun($datetime)
+    {
+        $bulan = $datetime->format('m');
+        $tahun = $datetime->format('Y');
+        $query = "SELECT * FROM peminjaman WHERE MONTH(tanggal_peminjaman) = $bulan AND YEAR(tanggal_peminjaman) = $tahun";
         $result = mysqli_query($this->conn, $query);
         $peminjaman = [];
         while ($row = mysqli_fetch_assoc($result)) {
@@ -90,29 +109,23 @@ class PeminjamanRepository
         return $peminjaman;
     }
 
-    public function setujuiPeminjaman($nomor_peminjaman)
+    public function updatePeminjamanStatus($nomor_peminjaman, $status)
     {
-        $query = "UPDATE peminjaman SET status = 'disetujui' WHERE nomor_peminjaman = $nomor_peminjaman";
-        mysqli_query($this->conn, $query);
+        $query = "UPDATE peminjaman SET status = '$status' WHERE nomor_peminjaman = $nomor_peminjaman";
+        $result = mysqli_query($this->conn, $query);
+        return $result;
     }
 
-    public function tolakPeminjaman($nomor_peminjaman)
+    public function insertPeminjaman(Peminjaman $peminjaman)
     {
-        $query = "UPDATE peminjaman SET status = 'ditolak' WHERE nomor_peminjaman = $nomor_peminjaman";
-        mysqli_query($this->conn, $query);
-    }
+        // convert tanggal peminjaman to string
+        $tanggal_peminjaman = $peminjaman->tanggal_peminjaman->format('Y-m-d');
 
-    public function pinjamanLunas($nomor_peminjaman)
-    {
-        $query = "UPDATE peminjaman SET status = 'lunas' WHERE nomor_peminjaman = $nomor_peminjaman";
-        mysqli_query($this->conn, $query);
-    }
+        // convert jatuh tempo to string
+        $jatuh_tempo = $peminjaman->jatuh_tempo->format('Y-m-d');
 
-    public function insertPeminjaman($nomor_pengguna, $jatuh_tempo, $jumlah_peminjaman, $bunga, $total_bayar)
-    {
-        $tanggal_peminjaman = date('Y-m-d');
-
-        $query = "INSERT INTO peminjaman (nomor_pengguna, tanggal_peminjaman, jatuh_tempo, jumlah_peminjaman, bunga, total_bayar) VALUES ('$nomor_pengguna', '$tanggal_peminjaman', '$jatuh_tempo', '$jumlah_peminjaman', '$bunga', '$total_bayar')";
-        mysqli_query($this->conn, $query);
+        $query = "INSERT INTO peminjaman (nomor_pengguna, tanggal_peminjaman, jatuh_tempo, jumlah_peminjaman, bunga, total_bayar, status) VALUES ('$peminjaman->nomor_pengguna', '$tanggal_peminjaman', '$jatuh_tempo', '$peminjaman->jumlah_peminjaman', '$peminjaman->bunga', '$peminjaman->total_bayar', '$peminjaman->status')";
+        $result = mysqli_query($this->conn, $query);
+        return $result;
     }
 }

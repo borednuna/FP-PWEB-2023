@@ -4,13 +4,13 @@ namespace App\Models;
 
 class Pengguna
 {
-    private int $nomor_pengguna;
-    private string $nama_pengguna;
-    private string $email;
-    private string $password;
-    private string $alamat;
-    private string $role;
-    private \DateTime $tanggal_bergabung;
+    public int $nomor_pengguna;
+    public string $nama_pengguna;
+    public string $email;
+    public string $password;
+    public string $alamat;
+    public string $role;
+    public \DateTime $tanggal_bergabung;
 
     public function __construct(
         int $nomor_pengguna,

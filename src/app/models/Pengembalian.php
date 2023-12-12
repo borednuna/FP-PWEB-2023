@@ -4,13 +4,14 @@ namespace App\Models;
 
 class Pengembalian
 {
-    private int $nomor_pengembalian;
-    private int $nomor_peminjaman;
-    private int $nomor_pengguna;
-    private \DateTime $tanggal_pengembalian;
-    private int $jumlah_pengembalian;
-    private string $status;
-    private string $bukti_bayar;
+    public int $nomor_pengembalian;
+    public int $nomor_peminjaman;
+    public int $nomor_pengguna;
+    public \DateTime $tanggal_pengembalian;
+    public int $jumlah_pengembalian;
+    public int $sisa_pengembalian;
+    public string $status;
+    public string $bukti_bayar;
 
     public function __construct(
         int $nomor_pengembalian,
@@ -18,6 +19,7 @@ class Pengembalian
         int $nomor_pengguna,
         \DateTime $tanggal_pengembalian,
         int $jumlah_pengembalian,
+        int $sisa_pengembalian,
         string $bukti_bayar
     ) {
         $this->nomor_pengembalian = $nomor_pengembalian;
@@ -26,6 +28,7 @@ class Pengembalian
         $this->tanggal_pengembalian = $tanggal_pengembalian;
         $this->jumlah_pengembalian = $jumlah_pengembalian;
         $this->status = "menunggu verifikasi";
+        $this->sisa_pengembalian = $sisa_pengembalian;
         $this->bukti_bayar = $bukti_bayar;
     }
 }

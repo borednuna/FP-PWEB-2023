@@ -23,10 +23,11 @@ class PengembalianRepository
             $pengembalian[] = new Pengembalian(
                 $row['nomor_pengembalian'],
                 $row['nomor_peminjaman'],
+                $row['nomor_pengguna'],
                 $row['tanggal_pengembalian'],
                 $row['jumlah_pengembalian'],
-                $row['denda'],
-                $row['total_bayar']
+                $row['sisa_pengembalian'],
+                $row['bukti_bayar']
             );
         }
         return $pengembalian;
@@ -41,10 +42,69 @@ class PengembalianRepository
             $pengembalian[] = new Pengembalian(
                 $row['nomor_pengembalian'],
                 $row['nomor_peminjaman'],
+                $row['nomor_pengguna'],
                 $row['tanggal_pengembalian'],
                 $row['jumlah_pengembalian'],
-                $row['denda'],
-                $row['total_bayar']
+                $row['sisa_pengembalian'],
+                $row['bukti_bayar']
+            );
+        }
+        return $pengembalian;
+    }
+
+    public function getByBulanTahun($datetime)
+    {
+        $month = $datetime->format('m');
+        $year = $datetime->format('Y');
+
+        $query = "SELECT * FROM pengembalian WHERE MONTH(tanggal_pengembalian) = $month AND YEAR(tanggal_pengembalian) = $year";
+        $result = mysqli_query($this->conn, $query);
+        $pengembalian = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $pengembalian[] = new Pengembalian(
+                $row['nomor_pengembalian'],
+                $row['nomor_peminjaman'],
+                $row['nomor_pengguna'],
+                $row['tanggal_pengembalian'],
+                $row['jumlah_pengembalian'],
+                $row['sisa_pengembalian'],
+                $row['bukti_bayar']
+            );
+        }
+        return $pengembalian;
+    }
+
+    public function getPengembalianById($id)
+    {
+        $query = "SELECT * FROM pengembalian WHERE nomor_pengembalian = $id";
+        $result = mysqli_query($this->conn, $query);
+        $row = mysqli_fetch_assoc($result);
+        $pengembalian = new Pengembalian(
+            $row['nomor_pengembalian'],
+                $row['nomor_peminjaman'],
+                $row['nomor_pengguna'],
+                $row['tanggal_pengembalian'],
+                $row['jumlah_pengembalian'],
+                $row['sisa_pengembalian'],
+                $row['bukti_bayar']
+        );
+        return $pengembalian;
+    }
+
+    public function getAllPengembalianByNomorPeminjaman($id)
+    {
+        $query = "SELECT * FROM pengembalian WHERE nomor_peminjaman = $id";
+        $result = mysqli_query($this->conn, $query);
+        $pengembalian = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $pengembalian[] = new Pengembalian(
+                $row['nomor_pengembalian'],
+                $row['nomor_peminjaman'],
+                $row['nomor_pengguna'],
+                $row['tanggal_pengembalian'],
+                $row['jumlah_pengembalian'],
+                $row['sisa_pengembalian'],
+                $row['bukti_bayar']
             );
         }
         return $pengembalian;
@@ -59,30 +119,19 @@ class PengembalianRepository
             $pengembalian[] = new Pengembalian(
                 $row['nomor_pengembalian'],
                 $row['nomor_peminjaman'],
+                $row['nomor_pengguna'],
                 $row['tanggal_pengembalian'],
                 $row['jumlah_pengembalian'],
-                $row['denda'],
-                $row['total_bayar']
+                $row['sisa_pengembalian'],
+                $row['bukti_bayar']
             );
         }
         return $pengembalian;
     }
 
-    public function setujuiPengembalian($nomor_pengembalian)
+    public function updatePengembalianStatus($nomor_pengembalian, $status)
     {
-        $query = "UPDATE pengembalian SET status = 'disetujui' WHERE nomor_pengembalian = $nomor_pengembalian";
-        mysqli_query($this->conn, $query);
-    }
-
-    public function tolakPengembalian($nomor_pengembalian)
-    {
-        $query = "UPDATE pengembalian SET status = 'ditolak' WHERE nomor_pengembalian = $nomor_pengembalian";
-        mysqli_query($this->conn, $query);
-    }
-
-    public function tambahPengembalian($nomor_peminjaman, $tanggal_pengembalian, $jumlah_pengembalian, $denda, $total_bayar)
-    {
-        $query = "INSERT INTO pengembalian (nomor_peminjaman, tanggal_pengembalian, jumlah_pengembalian, denda, total_bayar) VALUES ($nomor_peminjaman, '$tanggal_pengembalian', $jumlah_pengembalian, $denda, $total_bayar)";
+        $query = "UPDATE pengembalian SET status = '$status' WHERE nomor_pengembalian = $nomor_pengembalian";
         mysqli_query($this->conn, $query);
     }
 
@@ -90,7 +139,7 @@ class PengembalianRepository
     {
         $tanggal_pengembalian = date("Y-m-d");
 
-        $query = "INSERT INTO pengembalian (nomor_peminjaman, tanggal_pengembalian, jumlah_pengembalian, denda, total_bayar) VALUES ($pengembalian->nomor_peminjaman, '$tanggal_pengembalian', $pengembalian->jumlah_pengembalian, $pengembalian->denda, $pengembalian->total_bayar)";
+        $query = "INSERT INTO pengembalian (nomor_peminjaman, tanggal_pengembalian, jumlah_pengembalian, sisa_peminjaman, total_bayar, status) VALUES ($pengembalian->nomor_peminjaman, '$tanggal_pengembalian', $pengembalian->jumlah_pengembalian, $pengembalian->sisa_pengembalian, $pengembalian->total_bayar, $pengembalian->status)";
         mysqli_query($this->conn, $query);
     }
 }

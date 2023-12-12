@@ -4,14 +4,14 @@ namespace App\Models;
 
 class Peminjaman
 {
-    private int $nomor_peminjaman;
-    private int $nomor_pengguna;
-    private \DateTime $tanggal_peminjaman;
-    private \DateTime $jatuh_tempo;
-    private string $status;
-    private int $jumlah_peminjaman;
-    private float $decimal;
-    private int $total_bayar;
+    public int $nomor_peminjaman;
+    public int $nomor_pengguna;
+    public \DateTime $tanggal_peminjaman;
+    public \DateTime $jatuh_tempo;
+    public string $status;
+    public int $jumlah_peminjaman;
+    public float $bunga;
+    public int $total_bayar;
 
     public function __construct(
         int $nomor_peminjaman,
@@ -19,7 +19,7 @@ class Peminjaman
         \DateTime $tanggal_peminjaman,
         \DateTime $jatuh_tempo,
         int $jumlah_peminjaman,
-        float $decimal,
+        float $bunga,
         int $total_bayar
     ) {
         $this->nomor_peminjaman = $nomor_peminjaman;
@@ -28,7 +28,7 @@ class Peminjaman
         $this->jatuh_tempo = $jatuh_tempo;
         $this->status = "menunggu persetujuan";
         $this->jumlah_peminjaman = $jumlah_peminjaman;
-        $this->decimal = $decimal;
+        $this->bunga = $bunga;
         $this->total_bayar = $total_bayar;
     }
 }
