@@ -67,6 +67,12 @@ class pengembalianService
         return $result;
     }
 
+    public function getPendingPengembalianByNomorPengguna($id)
+    {
+        $result = $this->pengembalianRepository->getPengembalianByNomorPengguna($id);
+        return $result;
+    }
+
     public function terimaPengembalian($id)
     {
         $this->pengembalianRepository->updatePengembalianStatus($id, 'disetujui');
@@ -88,8 +94,6 @@ class pengembalianService
         // update peminjaman status
         if ($totalPengembalian == $peminjaman->jumlah_peminjaman) {
             $peminjamanRepository->updatePeminjamanStatus($peminjaman->nomor_peminjaman, 'lunas');
-        } else {
-
         }
 
         return;

@@ -13,10 +13,15 @@ use DateTime;
 class LaporanAnggotaService
 {
     private $laporanAnggotaRepository;
+    private $nomor_pengguna;
 
     public function __construct()
     {
         $this->laporanAnggotaRepository = new LaporanAnggotaRepository();
+
+        if (isset($_SESSION['nomor_pengguna'])) {
+            $this->nomor_pengguna = $_SESSION['nomor_pengguna'];
+        }
     }
 
     public function getAll()
@@ -35,9 +40,20 @@ class LaporanAnggotaService
     {
         $tanggal_laporan = new DateTime();
 
+        // check if laporan for current month already exists
+        $laporanAnggota = $this->laporanAnggotaRepository->getLaporanAnggotaByBulanTahun($tanggal_laporan);
+        if ($laporanAnggota) {
+            return;
+        }
+
         // get all peminjaman by bulan and tahun
         $peminjamanRepository = new PeminjamanRepository();
         $peminjaman = $peminjamanRepository->getByBulanTahun($tanggal_laporan);
+
+        // filter only for current pengguna
+        $peminjaman = array_filter($peminjaman, function ($p) {
+            return $p->nomor_pengguna == $this->nomor_pengguna;
+        });
 
         // sum all peminjaman
         $jumlah_peminjaman = 0;
@@ -48,6 +64,11 @@ class LaporanAnggotaService
         // get all pengembalian by bulan and tahun
         $pengembalianRepository = new PengembalianRepository();
         $pengembalian = $pengembalianRepository->getByBulanTahun($tanggal_laporan);
+
+        // filter only for current pengguna
+        $pengembalian = array_filter($pengembalian, function ($p) {
+            return $p->nomor_pengguna == $this->nomor_pengguna;
+        });
 
         // sum all pengembalian
         $jumlah_pengembalian = 0;
@@ -69,7 +90,7 @@ class LaporanAnggotaService
             $jumlah_pengembalian,
             $jumlah_peminjaman - $jumlah_pengembalian
         );
-        $this->laporanAnggotaRepository->insert($laporanAnggota);
+        $this->laporanAnggotaRepository->createLaporanAnggota($laporanAnggota);
     }
 
     // public function update($data)

@@ -19,7 +19,6 @@ class Peminjaman
         \DateTime $tanggal_peminjaman,
         \DateTime $jatuh_tempo,
         int $jumlah_peminjaman,
-        float $bunga,
         int $total_bayar
     ) {
         $this->nomor_peminjaman = $nomor_peminjaman;
@@ -28,7 +27,7 @@ class Peminjaman
         $this->jatuh_tempo = $jatuh_tempo;
         $this->status = "menunggu persetujuan";
         $this->jumlah_peminjaman = $jumlah_peminjaman;
-        $this->bunga = $bunga;
+        $this->bunga = 0.125;
         $this->total_bayar = $total_bayar;
     }
 }

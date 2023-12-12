@@ -35,7 +35,7 @@ class PenggunaService
     public function create($data)
     {
         $pengguna = new Pengguna(
-            $data['nomor_pengguna'],
+            0,
             $data['nama'],
             $data['email'],
             $data['password'],
@@ -43,7 +43,7 @@ class PenggunaService
             $data['role'],
             $data['tanggal_bergabung']
         );
-        $result = $this->penggunaRepository->insert($pengguna);
+        $result = $this->penggunaRepository->registerPengguna($pengguna);
         return $result;
     }
 

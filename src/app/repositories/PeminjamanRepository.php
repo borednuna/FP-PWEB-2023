@@ -8,10 +8,15 @@ use App\Config\Config;
 class PeminjamanRepository
 {
     private $conn;
+    private $nomor_pengguna;
 
     public function __construct()
     {
         $this->conn = mysqli_connect((new Config())->hostname, (new Config())->username, (new Config())->password, (new Config())->dbname);
+
+        if (isset($_SESSION['nomor_pengguna'])) {
+            $this->nomor_pengguna = $_SESSION['nomor_pengguna'];
+        }
     }
 
     public function getAll()
@@ -35,7 +40,7 @@ class PeminjamanRepository
 
     public function getPendingPeminjaman()
     {
-        $query = "SELECT * FROM peminjaman WHERE status = 'menunggu persetujuan'";
+        $query = "SELECT * FROM peminjaman WHERE status = 'menunggu persetujuan' JOIN pengguna ON peminjaman.nomor_pengguna = pengguna.nomor_pengguna";
         $result = mysqli_query($this->conn, $query);
         $peminjaman = [];
         while ($row = mysqli_fetch_assoc($result)) {

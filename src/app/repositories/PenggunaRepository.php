@@ -67,7 +67,7 @@ class PenggunaRepository
         return $pengguna;
     }
 
-    public function insert($pengguna)
+    public function registerPengguna($pengguna)
     {
         $tanggal_bergabung = date("Y-m-d");
 

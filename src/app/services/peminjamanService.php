@@ -34,8 +34,9 @@ class PeminjamanService
 
     public function create($data)
     {
+        $bunga = 0.125;
         $duration_in_month = (strtotime($data['jatuh_tempo']) - strtotime($data['tanggal_peminjaman'])) / (60 * 60 * 24 * 30);
-        $suku_bunga = $data['bunga'] * $data['jumlah_peminjaman'] * $duration_in_month;
+        $suku_bunga = $bunga * $data['jumlah_peminjaman'] * $duration_in_month;
         $total_bayar = $data['jumlah_peminjaman'] + $suku_bunga;
 
         $peminjaman = new Peminjaman(
@@ -44,7 +45,6 @@ class PeminjamanService
             $data['tanggal_peminjaman'],
             $data['jatuh_tempo'],
             $data['jumlah_peminjaman'],
-            $data['bunga'],
             $total_bayar
         );
         $result = $this->peminjamanRepository->insertPeminjaman($peminjaman);
