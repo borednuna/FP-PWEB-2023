@@ -22,6 +22,7 @@ class LaporanKeuanganKetuaRepository
 
     public function create(LaporanKeuanganKetua $laporanKeuanganKetua)
     {
+        $tanggal_laporan = (string) $laporanKeuanganKetua->tanggal_laporan;
         $query = "INSERT INTO laporan_keuangan_ketua(
             nomor_pengguna,
             bulan,
@@ -33,7 +34,7 @@ class LaporanKeuanganKetuaRepository
             $this->nomor_pengguna,
             $laporanKeuanganKetua->bulan,
             $laporanKeuanganKetua->tahun,
-            $laporanKeuanganKetua->tanggal_laporan,
+            $tanggal_laporan,
             $laporanKeuanganKetua->jumlah_peminjaman,
             $laporanKeuanganKetua->jumlah_pengembalian
         )";
