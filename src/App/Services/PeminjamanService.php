@@ -8,10 +8,15 @@ use App\Repositories\PeminjamanRepository;
 class PeminjamanService
 {
     private $peminjamanRepository;
+    private $nomor_pengguna;
 
     public function __construct()
     {
         $this->peminjamanRepository = new PeminjamanRepository();
+        
+        if (isset($_SESSION['nomor_pengguna'])) {
+            $this->nomor_pengguna = $_SESSION['nomor_pengguna'];
+        }
     }
 
     public function getAll()
@@ -35,17 +40,31 @@ class PeminjamanService
     public function create($data)
     {
         $bunga = 0.125;
-        $duration_in_month = (strtotime($data['jatuh_tempo']) - strtotime($data['tanggal_peminjaman'])) / (60 * 60 * 24 * 30);
+        // today
+        $today = date('Y-m-d H:i:s');
+        // 1 month from today
+        $one_month_from_today = date('Y-m-d H:i:s', strtotime('+1 month'));
+        $duration_in_month = (int) date_diff(date_create($today), date_create($one_month_from_today))->format('%m');
         $suku_bunga = $bunga * $data['jumlah_peminjaman'] * $duration_in_month;
         $total_bayar = $data['jumlah_peminjaman'] + $suku_bunga;
 
+        // datetime now
+        $tanggal_peminjaman = date('Y-m-d H:i:s');
+        $jatuh_tempo = date('Y-m-d H:i:s', strtotime('+1 month'));
+
+        // datetime to string
+        $tanggal_peminjaman = date('Y-m-d H:i:s', strtotime($tanggal_peminjaman));
+        $jatuh_tempo = date('Y-m-d H:i:s', strtotime($jatuh_tempo));
+
         $peminjaman = new Peminjaman(
-            $data['nomor_peminjaman'],
-            $data['nomor_pengguna'],
-            $data['tanggal_peminjaman'],
-            $data['jatuh_tempo'],
+            1,
+            $this->nomor_pengguna,
+            $tanggal_peminjaman,
+            $jatuh_tempo,
+            'menunggu persetujuan',
             $data['jumlah_peminjaman'],
-            $total_bayar
+            0.125,
+            $total_bayar = intval($total_bayar)
         );
         $result = $this->peminjamanRepository->insertPeminjaman($peminjaman);
         return $result;

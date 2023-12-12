@@ -26,8 +26,7 @@ class PenggunaRepository
                 $row['email'],
                 $row['password'],
                 $row['alamat'],
-                $row['role'],
-                $row['$tanggal_bergabung']
+                $row['role']
             );
         }
         return $pengguna;
@@ -44,25 +43,23 @@ class PenggunaRepository
             $row['email'],
             $row['password'],
             $row['alamat'],
-            $row['role'],
-            $row['$tanggal_bergabung']
+            $row['role']
         );
         return $pengguna;
     }
 
     public function getByUsername($username)
     {
-        $query = "SELECT * FROM pengguna WHERE nama = '%$username%'";
+        $query = "SELECT * FROM pengguna WHERE nama LIKE '%$username%'";
         $result = mysqli_query($this->conn, $query);
         $row = mysqli_fetch_assoc($result);
         $pengguna = new Pengguna(
-            $row['nomor_pengguna'],
+            1,
             $row['nama'],
             $row['email'],
             $row['password'],
             $row['alamat'],
-            $row['role'],
-            $row['$tanggal_bergabung']
+            $row['role']
         );
         return $pengguna;
     }
@@ -71,7 +68,7 @@ class PenggunaRepository
     {
         $tanggal_bergabung = date("Y-m-d");
 
-        $query = "INSERT INTO pengguna (nama, username, password, role, tanggal_bergabung) VALUES ('$pengguna->nama', '$pengguna->username', '$pengguna->password', '$pengguna->role', '$tanggal_bergabung')";
+        $query = "INSERT INTO pengguna (nama, email, password, alamat, role, tanggal_bergabung, updated_at) VALUES ('$pengguna->nama_pengguna', '$pengguna->email', '$pengguna->password', '$pengguna->alamat', '$pengguna->role', '$tanggal_bergabung', '2023-01-03 12:00:00')";
         $result = mysqli_query($this->conn, $query);
         return $result;
     }

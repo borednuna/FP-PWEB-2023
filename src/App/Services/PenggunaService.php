@@ -40,8 +40,7 @@ class PenggunaService
             $data['email'],
             $data['password'],
             $data['alamat'],
-            $data['role'],
-            $data['tanggal_bergabung']
+            'anggota',
         );
         $result = $this->penggunaRepository->registerPengguna($pengguna);
         return $result;

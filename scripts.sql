@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `laporan_anggota` (
   `sisa_pinjaman` int(11) NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`nomor_laporan`),
-  FOREIGN KEY (`nomor_pengguna`) REFERENCES `pengguna` (`nomor_pengguna`)
+  FOREIGN KEY (`nomor_pengguna`) REFERENCES `pengguna` (`nomor_pengguna`),
   FOREIGN KEY (`nomor_laporan_keuangan_ketua`) REFERENCES `laporan_keuangan_ketua` (`nomor_laporan`)
 );
 

@@ -22,21 +22,20 @@ class LaporanKeuanganKetuaRepository
 
     public function create(LaporanKeuanganKetua $laporanKeuanganKetua)
     {
-        $tanggal_laporan = (string) $laporanKeuanganKetua->tanggal_laporan;
         $query = "INSERT INTO laporan_keuangan_ketua(
-            nomor_pengguna,
             bulan,
             tahun,
             tanggal_laporan,
             jumlah_peminjaman,
-            jumlah_pengembalian
+            jumlah_pengembalian,
+            updated_at
         ) VALUES (
-            $this->nomor_pengguna,
-            $laporanKeuanganKetua->bulan,
+            '$laporanKeuanganKetua->bulan',
             $laporanKeuanganKetua->tahun,
-            $tanggal_laporan,
+            '$laporanKeuanganKetua->tanggal_laporan',
             $laporanKeuanganKetua->jumlah_peminjaman,
-            $laporanKeuanganKetua->jumlah_pengembalian
+            $laporanKeuanganKetua->jumlah_pengembalian,
+            '2023-01-03 12:00:00'
         )";
         $result = mysqli_query($this->conn, $query);
         return $result;
@@ -62,7 +61,7 @@ class LaporanKeuanganKetuaRepository
 
     public function getByBulanTahun($bulan, $tahun)
     {
-        $query = "SELECT * FROM laporan_keuangan_ketua WHERE bulan = $bulan AND tahun = $tahun";
+        $query = "SELECT * FROM laporan_keuangan_ketua WHERE bulan = '$bulan' AND tahun = $tahun";
         $result = mysqli_query($this->conn, $query);
         $laporanKeuanganKetua = [];
         while ($row = mysqli_fetch_assoc($result)) {

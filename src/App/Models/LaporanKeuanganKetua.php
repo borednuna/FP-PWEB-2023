@@ -7,7 +7,7 @@ class LaporanKeuanganKetua
     public int $nomor_laporan;
     public string $bulan;
     public int $tahun;
-    public \DateTime $tanggal_laporan;
+    public string $tanggal_laporan;
     public int $jumlah_peminjaman;
     public int $jumlah_pengembalian;
 
@@ -15,7 +15,7 @@ class LaporanKeuanganKetua
         int $nomor_laporan,
         string $bulan,
         int $tahun,
-        \DateTime $tanggal_laporan,
+        string $tanggal_laporan,
         int $jumlah_peminjaman,
         int $jumlah_pengembalian
     ) {

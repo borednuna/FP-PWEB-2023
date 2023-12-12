@@ -1,0 +1,20 @@
+{
+    "name": "borednuna/fp_pweb_2023",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/App/"
+        }
+    },
+    "authors": [
+        {
+            "name": "borednuna",
+            "email": "hanunshaka02@gmail.com"
+        },
+        {
+            "name": "yaboidimsum",
+            "email": "dprihadisetiawan@gmail.com"
+        }
+    ],
+    "require": {}
+}
