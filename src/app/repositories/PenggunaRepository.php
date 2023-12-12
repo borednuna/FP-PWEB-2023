@@ -52,7 +52,7 @@ class PenggunaRepository
 
     public function getByUsername($username)
     {
-        $query = "SELECT * FROM pengguna WHERE username = '%$username%'";
+        $query = "SELECT * FROM pengguna WHERE nama = '%$username%'";
         $result = mysqli_query($this->conn, $query);
         $row = mysqli_fetch_assoc($result);
         $pengguna = new Pengguna(
