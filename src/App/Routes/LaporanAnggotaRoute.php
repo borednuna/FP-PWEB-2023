@@ -8,23 +8,21 @@ return function ($router) use ($laporan_anggota_service)
 {
     $router->addRoute('/laporan_anggota', function () use ($laporan_anggota_service) {
         // Handle registration logic
-        $postData = json_decode(file_get_contents("php://input"), true);
-        return $laporan_anggota_service->create($postData);
+        return $laporan = json_encode($laporan_anggota_service->create());
     }, 'POST');
 
-    $router->addRoute('/laporan_anggota', function () use ($laporan_anggota_service) {
+    $router->addRoute('/all_laporan_anggota', function () use ($laporan_anggota_service) {
         // Handle getting all users logic
-        return $laporan_anggota_service->getAll();
+        header('Content-Type: application/json');
+        $laporan = json_encode($laporan_anggota_service->getAll());
+        return $laporan;
     }, 'GET');
 
-    $router->addRoute('/laporan_anggota/{nomor_pengguna}', function ($nomor_pengguna) use ($laporan_anggota_service) {
+    $router->addRoute('/laporan_nomor_anggota', function () use ($laporan_anggota_service) {
         // Handle getting user by username logic
-        return $laporan_anggota_service->getByNomorPengguna($nomor_pengguna);
+        $nomor_pengguna = $_GET['nomor_pengguna'];
+        header('Content-Type: application/json');
+        $laporan = json_encode($laporan_anggota_service->getByNomorPengguna($nomor_pengguna));
+        return $laporan;
     }, 'GET');
-
-    $router->addRoute('\/laporan_anggota/', function () use ($laporan_anggota_service) {
-        // Handle creating new peminjaman logic
-        $postData = json_decode(file_get_contents("php://input"), true);
-        return $laporan_anggota_service->create($postData);
-    }, 'POST');
 };

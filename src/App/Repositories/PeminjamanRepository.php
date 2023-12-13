@@ -101,6 +101,7 @@ class PeminjamanRepository
     {
         $bulan = $datetime->format('m');
         $tahun = $datetime->format('Y');
+        
         $query = "SELECT * FROM peminjaman WHERE MONTH(tanggal_peminjaman) = $bulan AND YEAR(tanggal_peminjaman) = $tahun";
         $result = mysqli_query($this->conn, $query);
         $peminjaman = [];

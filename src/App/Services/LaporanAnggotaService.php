@@ -36,7 +36,7 @@ class LaporanAnggotaService
         return $result;
     }
 
-    public function create($data)
+    public function create()
     {
         $tanggal_laporan = new DateTime();
 
@@ -45,10 +45,12 @@ class LaporanAnggotaService
         if ($laporanAnggota) {
             return;
         }
+        
+        $tanggal_laporan = date('Y-m-d H:i:s');
 
         // get all peminjaman by bulan and tahun
         $peminjamanRepository = new PeminjamanRepository();
-        $peminjaman = $peminjamanRepository->getByBulanTahun($tanggal_laporan);
+        $peminjaman = $peminjamanRepository->getByBulanTahun(new DateTime());
 
         // filter only for current pengguna
         $peminjaman = array_filter($peminjaman, function ($p) {
@@ -63,7 +65,7 @@ class LaporanAnggotaService
 
         // get all pengembalian by bulan and tahun
         $pengembalianRepository = new PengembalianRepository();
-        $pengembalian = $pengembalianRepository->getByBulanTahun($tanggal_laporan);
+        $pengembalian = $pengembalianRepository->getByBulanTahun(new DateTime());
 
         // filter only for current pengguna
         $pengembalian = array_filter($pengembalian, function ($p) {
@@ -76,13 +78,16 @@ class LaporanAnggotaService
             $jumlah_pengembalian += $p->jumlah_pengembalian;
         }
 
-        $bulan_str = BulanEnum::getBulan($tanggal_laporan->format('m'));
-        $tahun = $tanggal_laporan->format('Y');
+        // today
+        $now = new DateTime($tanggal_laporan);
+
+        $bulan_str = BulanEnum::getBulan($now->format('m'));
+        $tahun = $now->format('Y');
 
         $laporanAnggota = new LaporanAnggota(
-            $data['nomor_laporan'],
-            $data['nomor_pengguna'],
-            -1,
+            1,
+            $this->nomor_pengguna,
+            1,
             $tanggal_laporan,
             $bulan_str,
             $tahun,
