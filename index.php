@@ -5,7 +5,13 @@ require_once 'vendor/autoload.php';
 
 use App\Routes\Router;
 
-include './src/templates/login-form.html';
+// ... (Previous code)
+
+// Include the login form only for GET requests to the entry URL
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && $_SERVER['REQUEST_URI'] === '/') {
+    include './src/templates/login-form.html';
+    exit(); // Stop further execution
+}
 
 // Include the penggunaRoute.php file and get the routes
 $penggunaRoutes = require './src/App/Routes/PenggunaRoute.php';
@@ -29,4 +35,13 @@ $loginRoutes($router);
 $logoutRoutes($router);
 
 // Route the request
-echo $router->route($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
+$response = $router->route($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
+
+// Check if the response is not HTML and return it directly
+if (strpos($response, '<!DOCTYPE html>') === false) {
+    echo $response;
+} else {
+    // Handle HTML responses, maybe log an error or return an appropriate response
+    // For now, you can echo an error message
+    echo 'Error: Invalid response.';
+}

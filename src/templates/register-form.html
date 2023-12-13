@@ -29,12 +29,12 @@
           </div>
           
 
-          <form action="" class="w-full">
+          <form id="registerForm" action="" class="w-full">
             <div class="flex w-[400px] flex-col gap-4">
               <div class="flex flex-col gap-2">
                 <h2 class="text-md font-semibold">Fullname</h2>
                 <input
-                  type="text"
+                  type="fullname"
                   placeholder="Username"
                   class="rounded-md border-2 border-[#14213D] px-4 py-2"
                 />
@@ -42,7 +42,7 @@
               <div class="flex flex-col gap-2">
                 <h2 class="text-md font-semibold">Alamat</h2>
                 <input
-                  type="text"
+                  type="alamat"
                   placeholder="Username"
                   class="rounded-md border-2 border-[#14213D] px-4 py-2"
                 />
@@ -50,7 +50,7 @@
               <div class="flex flex-col gap-2">
                 <h2 class="text-md font-semibold">Email Address</h2>
                 <input
-                  type="text"
+                  type="email"
                   placeholder="Username"
                   class="rounded-md border-2 border-[#14213D] px-4 py-2"
                 />
@@ -66,12 +66,13 @@
               <div class="flex flex-col gap-2">
                 <h2 class="text-md font-semibold">Confirm Password</h2>
                 <input
-                  type="password"
+                  type="confirm_password"
                   placeholder="Password"
                   class="rounded-md border-2 border-[#14213D] px-4 py-2"
                 />
               </div>
               <button
+                type="submit"
                 class="rounded-md bg-[#14213D] px-4 py-2 font-semibold text-white transition ease-in-out hover:bg-[#11FC99] hover:text-[#14213D]"
               >
                 Register
@@ -89,5 +90,50 @@
         </div>
       </div>
     </div>
+
+    <script>
+      document.getElementById('registerForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const fullname = document.querySelector('input[type="fullname"]').value;
+        const alamat = document.querySelector('input[type="alamat"]').value;
+        const email = document.querySelector('input[type="email"]').value;
+        const password = document.querySelector('input[type="password"]').value;
+        const confirm_password = document.querySelector('input[type="confirm_password"]').value;
+        const data = {
+          "nama": fullname,
+          "email": email,
+          "password": password,
+          "alamat": alamat
+        }
+
+        if (password !== confirm_password) {
+            alert('Password and Confirm Password do not match!');
+            return;
+        }
+
+        const endpoint = 'http://localhost:8000/register';
+
+        fetch(endpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        })
+        .then(response => {
+          response.json();
+          if (response.status === 200) {
+            window.location.href = '/src/templates/login-form.html';
+          }
+        })
+        .then(data => {
+          console.log(data);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+      });
+    </script>
   </body>
 </html>
