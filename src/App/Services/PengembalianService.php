@@ -28,6 +28,7 @@ class pengembalianService
 
     public function getByNomorPengguna($id)
     {
+        $id = intval($id);
         $result = $this->pengembalianRepository->getPengembalianByNomorPengguna($id);
         return $result;
     }
@@ -47,19 +48,27 @@ class pengembalianService
             $totalPengembalian += $pengembalian->jumlah_pengembalian;
         }
 
+        // to integer
+        $nomor_peminjaman = (int) $data['nomor_peminjaman'];
+        $jumlah_pengembalian = (int) $data['jumlah_pengembalian'];
+
+        // datetime now
+        $tanggal_pengembalian = date('Y-m-d H:i:s');
+
         $pengembalian = new Pengembalian(
-            $data['nomor_pengembalian'],
+            1,
             $data['nomor_peminjaman'],
-            $this->nomor_pengguna,
-            $data['tanggal_pengembalian'],
+            $peminjaman->nomor_pengguna,
+            $tanggal_pengembalian,
             $data['jumlah_pengembalian'],
-            $peminjaman->jumlah_peminjaman - $totalPengembalian,
+            "menunggu verifikasi",
+            $peminjaman->jumlah_peminjaman - ($totalPengembalian + $data['jumlah_pengembalian']),
             $data['bukti_bayar']
         );
         $this->pengembalianRepository->insert($pengembalian);
 
         // update peminjaman status if fully returned
-        if ($peminjaman->jumlah_peminjaman == $totalPengembalian) {
+        if ($peminjaman->jumlah_peminjaman == $totalPengembalian + $data['jumlah_pengembalian']) {
             $peminjamanRepository->updatePeminjamanStatus($peminjaman->nomor_peminjaman, 'lunas');
         }
         

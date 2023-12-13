@@ -26,7 +26,8 @@ class PengembalianRepository
                 $row['nomor_pengguna'],
                 $row['tanggal_pengembalian'],
                 $row['jumlah_pengembalian'],
-                $row['sisa_pengembalian'],
+                $row['status'],
+                $row['sisa_pinjaman'],
                 $row['bukti_bayar']
             );
         }
@@ -45,7 +46,8 @@ class PengembalianRepository
                 $row['nomor_pengguna'],
                 $row['tanggal_pengembalian'],
                 $row['jumlah_pengembalian'],
-                $row['sisa_pengembalian'],
+                $row['status'],
+                $row['sisa_pinjaman'],
                 $row['bukti_bayar']
             );
         }
@@ -67,7 +69,8 @@ class PengembalianRepository
                 $row['nomor_pengguna'],
                 $row['tanggal_pengembalian'],
                 $row['jumlah_pengembalian'],
-                $row['sisa_pengembalian'],
+                $row['status'],
+                $row['sisa_pinjaman'],
                 $row['bukti_bayar']
             );
         }
@@ -85,7 +88,8 @@ class PengembalianRepository
                 $row['nomor_pengguna'],
                 $row['tanggal_pengembalian'],
                 $row['jumlah_pengembalian'],
-                $row['sisa_pengembalian'],
+                $row['status'],
+                $row['sisa_pinjaman'],
                 $row['bukti_bayar']
         );
         return $pengembalian;
@@ -103,7 +107,8 @@ class PengembalianRepository
                 $row['nomor_pengguna'],
                 $row['tanggal_pengembalian'],
                 $row['jumlah_pengembalian'],
-                $row['sisa_pengembalian'],
+                $row['status'],
+                $row['sisa_pinjaman'],
                 $row['bukti_bayar']
             );
         }
@@ -112,7 +117,7 @@ class PengembalianRepository
 
     public function getPendingPengembalian()
     {
-        $query = "SELECT * FROM pengembalian WHERE status = 'menunggu persetujuan'";
+        $query = "SELECT * FROM pengembalian WHERE status = 'menunggu verifikasi'";
         $result = mysqli_query($this->conn, $query);
         $pengembalian = [];
         while ($row = mysqli_fetch_assoc($result)) {
@@ -122,7 +127,8 @@ class PengembalianRepository
                 $row['nomor_pengguna'],
                 $row['tanggal_pengembalian'],
                 $row['jumlah_pengembalian'],
-                $row['sisa_pengembalian'],
+                $row['status'],
+                $row['sisa_pinjaman'],
                 $row['bukti_bayar']
             );
         }
@@ -137,9 +143,25 @@ class PengembalianRepository
 
     public function insert($pengembalian)
     {
-        $tanggal_pengembalian = date("Y-m-d");
-
-        $query = "INSERT INTO pengembalian (nomor_peminjaman, tanggal_pengembalian, jumlah_pengembalian, sisa_peminjaman, total_bayar, status) VALUES ($pengembalian->nomor_peminjaman, '$tanggal_pengembalian', $pengembalian->jumlah_pengembalian, $pengembalian->sisa_pengembalian, $pengembalian->total_bayar, $pengembalian->status)";
+        $query = "INSERT INTO pengembalian (
+            nomor_peminjaman,
+            nomor_pengguna,
+            tanggal_pengembalian,
+            jumlah_pengembalian,
+            status,
+            sisa_pinjaman,
+            bukti_bayar,
+            updated_at
+        ) VALUES (
+            $pengembalian->nomor_peminjaman,
+            $pengembalian->nomor_pengguna,
+            '$pengembalian->tanggal_pengembalian',
+            $pengembalian->jumlah_pengembalian,
+            '$pengembalian->status',
+            $pengembalian->sisa_pinjaman,
+            '$pengembalian->bukti_bayar',
+            '2023-01-03 12:00:00'
+        )";
         mysqli_query($this->conn, $query);
     }
 }
