@@ -13,20 +13,22 @@ class LoginHandler
         $this->conn = mysqli_connect((new Config())->hostname, (new Config())->username, (new Config())->password, (new Config())->dbname);
     }
 
-    public function loginUser(string $email, string $password_input): bool
+    public function loginUser(string $email, string $password_input): string
     {
-        $sql = "SELECT nomor_pengguna, password FROM pengguna WHERE email = ? LIMIT 1";
+        $sql = "SELECT nomor_pengguna, role, password FROM pengguna WHERE email = ? LIMIT 1";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("s", $email);
         $stmt->execute();
-        $stmt->bind_result($nomor_pengguna, $password);
+        $stmt->bind_result($nomor_pengguna, $role, $password);
         $stmt->fetch();
         $stmt->close();
-
+        
         if ($password === $password_input) {
             session_start();
             $_SESSION['nomor_pengguna'] = $nomor_pengguna;
-            return $nomor_pengguna;
+            $_SESSION['role'] = $role;
+            $data = $role;
+            return $data;
         }
 
         return -1;

@@ -12,8 +12,10 @@ return function ($router) use ($loginHandler)
     
         $email = $postData['email'] ?? null;
         $password = $postData['password'] ?? null;
+
+        $login_data = json_encode($loginHandler->loginUser($email, $password));
     
-        return $loginHandler->loginUser($email, $password);
+        return $login_data;
     }, 'POST');
     
 };
