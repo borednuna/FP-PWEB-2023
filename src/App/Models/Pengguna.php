@@ -19,7 +19,6 @@ class Pengguna
         string $password,
         string $alamat,
         string $role,
-        \DateTime $tanggal_bergabung
     ) {
         $this->nomor_pengguna = $nomor_pengguna;
         $this->nama_pengguna = $nama_pengguna;
@@ -27,6 +26,6 @@ class Pengguna
         $this->password = $password;
         $this->alamat = $alamat;
         $this->role = $role;
-        $this->tanggal_bergabung = $tanggal_bergabung;
+        $this->tanggal_bergabung = new \DateTime();
     }
 }

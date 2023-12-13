@@ -8,10 +8,15 @@ use App\Repositories\PeminjamanRepository;
 class PeminjamanService
 {
     private $peminjamanRepository;
+    private $nomor_pengguna;
 
     public function __construct()
     {
         $this->peminjamanRepository = new PeminjamanRepository();
+        
+        if (isset($_SESSION['nomor_pengguna'])) {
+            $this->nomor_pengguna = $_SESSION['nomor_pengguna'];
+        }
     }
 
     public function getAll()
@@ -41,7 +46,7 @@ class PeminjamanService
 
         $peminjaman = new Peminjaman(
             $data['nomor_peminjaman'],
-            $data['nomor_pengguna'],
+            $this->nomor_pengguna,
             $data['tanggal_peminjaman'],
             $data['jatuh_tempo'],
             $data['jumlah_peminjaman'],

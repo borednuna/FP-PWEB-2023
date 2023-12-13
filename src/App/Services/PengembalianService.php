@@ -9,10 +9,15 @@ use App\Repositories\PeminjamanRepository;
 class pengembalianService
 {
     private $pengembalianRepository;
+    private $nomor_pengguna;
 
     public function __construct()
     {
         $this->pengembalianRepository = new PengembalianRepository();
+
+        if (isset($_SESSION['nomor_pengguna'])) {
+            $this->nomor_pengguna = $_SESSION['nomor_pengguna'];
+        }
     }
 
     public function getAll()
@@ -45,7 +50,7 @@ class pengembalianService
         $pengembalian = new Pengembalian(
             $data['nomor_pengembalian'],
             $data['nomor_peminjaman'],
-            $data['nomor_pengguna'],
+            $this->nomor_pengguna,
             $data['tanggal_pengembalian'],
             $data['jumlah_pengembalian'],
             $peminjaman->jumlah_peminjaman - $totalPengembalian,
