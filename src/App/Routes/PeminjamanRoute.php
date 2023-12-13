@@ -12,34 +12,40 @@ return function ($router) use ($peminjamanService)
         return $peminjamanService->create($postData);
     }, 'POST');
 
-    $router->addRoute('/peminjaman', function () use ($peminjamanService) {
+    $router->addRoute('/all_peminjaman', function () use ($peminjamanService) {
         // Handle getting all users logic
-        return $peminjamanService->getAll();
+        $peminjaman = $peminjamanService->getAll();
+        header('Content-Type: application/json');
+        return json_encode($peminjaman);
     }, 'GET');
 
     $router->addRoute('/peminjaman_pending', function () use ($peminjamanService) {
         // Handle getting all users logic
-        return $peminjamanService->getPendingPeminjaman();
+        $peminjaman_pending = $peminjamanService->getPendingPeminjaman();
+        header('Content-Type: application/json');
+        return json_encode($peminjaman_pending);
     }, 'GET');
 
-    $router->addRoute('/peminjaman_anggota/{nomor_pengguna}', function ($nomor_pengguna) use ($peminjamanService) {
+    $router->addRoute('/peminjaman_anggota', function () use ($peminjamanService) {
         // Handle getting user by username logic
-        return $peminjamanService->getPeminjamanByNomorPengguna($nomor_pengguna);
+        $nomor_pengguna = $_GET['nomor_pengguna'] ?? null;
+
+        $peminjaman_anggota = $peminjamanService->getPeminjamanByNomorPengguna($nomor_pengguna);
+        header('Content-Type: application/json');
+        return json_encode($peminjaman_anggota);
     }, 'GET');
 
-    $router->addRoute('/peminjaman/', function () use ($peminjamanService) {
+    $router->addRoute('/peminjaman_setujui', function () use ($peminjamanService) {
         // Handle creating new peminjaman logic
-        $postData = json_decode(file_get_contents("php://input"), true);
-        return $peminjamanService->create($postData);
-    }, 'POST');
+        $nomor_peminjaman = $_GET['nomor_peminjaman'] ?? null;
 
-    $router->addRoute('/peminjaman_setujui/{nomor_peminjaman}', function ($nomor_peminjaman) use ($peminjamanService) {
-        // Handle creating new peminjaman logic
         return $peminjamanService->setujuiPeminjaman($nomor_peminjaman);
-    }, 'POST');
+    }, 'PUT');
 
-    $router->addRoute('/peminjaman_tolak/{nomor_peminjaman}', function ($nomor_peminjaman) use ($peminjamanService) {
+    $router->addRoute('/peminjaman_tolak', function () use ($peminjamanService) {
         // Handle creating new peminjaman logic
+        $nomor_peminjaman = $_GET['nomor_peminjaman'] ?? null;
+
         return $peminjamanService->tolakPeminjaman($nomor_peminjaman);
-    }, 'POST');
+    }, 'PUT');
 };

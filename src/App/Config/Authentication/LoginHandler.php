@@ -26,9 +26,9 @@ class LoginHandler
         if ($password === $password_input) {
             session_start();
             $_SESSION['nomor_pengguna'] = $nomor_pengguna;
-            return true;
+            return $nomor_pengguna;
         }
 
-        return false;
+        return -1;
     }
 }

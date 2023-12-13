@@ -30,6 +30,7 @@ class PeminjamanRepository
                 $row['nomor_pengguna'],
                 $row['tanggal_peminjaman'],
                 $row['jatuh_tempo'],
+                $row['status'],
                 $row['jumlah_peminjaman'],
                 $row['bunga'],
                 $row['total_bayar']
@@ -40,7 +41,7 @@ class PeminjamanRepository
 
     public function getPendingPeminjaman()
     {
-        $query = "SELECT * FROM peminjaman WHERE status = 'menunggu persetujuan' JOIN pengguna ON peminjaman.nomor_pengguna = pengguna.nomor_pengguna";
+        $query = "SELECT * FROM peminjaman JOIN pengguna ON peminjaman.nomor_pengguna = pengguna.nomor_pengguna WHERE status = 'menunggu persetujuan'";
         $result = mysqli_query($this->conn, $query);
         $peminjaman = [];
         while ($row = mysqli_fetch_assoc($result)) {
@@ -49,6 +50,7 @@ class PeminjamanRepository
                 $row['nomor_pengguna'],
                 $row['tanggal_peminjaman'],
                 $row['jatuh_tempo'],
+                $row['status'],
                 $row['jumlah_peminjaman'],
                 $row['bunga'],
                 $row['total_bayar']
@@ -68,6 +70,7 @@ class PeminjamanRepository
                 $row['nomor_pengguna'],
                 $row['tanggal_peminjaman'],
                 $row['jatuh_tempo'],
+                $row['status'],
                 $row['jumlah_peminjaman'],
                 $row['bunga'],
                 $row['total_bayar']
@@ -86,6 +89,7 @@ class PeminjamanRepository
             $row['nomor_pengguna'],
             $row['tanggal_peminjaman'],
             $row['jatuh_tempo'],
+            $row['status'],
             $row['jumlah_peminjaman'],
             $row['bunga'],
             $row['total_bayar']
@@ -106,6 +110,7 @@ class PeminjamanRepository
                 $row['nomor_pengguna'],
                 $row['tanggal_peminjaman'],
                 $row['jatuh_tempo'],
+                $row['status'],
                 $row['jumlah_peminjaman'],
                 $row['bunga'],
                 $row['total_bayar']
@@ -123,13 +128,7 @@ class PeminjamanRepository
 
     public function insertPeminjaman(Peminjaman $peminjaman)
     {
-        // convert tanggal peminjaman to string
-        $tanggal_peminjaman = $peminjaman->tanggal_peminjaman->format('Y-m-d');
-
-        // convert jatuh tempo to string
-        $jatuh_tempo = $peminjaman->jatuh_tempo->format('Y-m-d');
-
-        $query = "INSERT INTO peminjaman (nomor_pengguna, tanggal_peminjaman, jatuh_tempo, jumlah_peminjaman, bunga, total_bayar, status) VALUES ('$peminjaman->nomor_pengguna', '$tanggal_peminjaman', '$jatuh_tempo', '$peminjaman->jumlah_peminjaman', '$peminjaman->bunga', '$peminjaman->total_bayar', '$peminjaman->status')";
+        $query = "INSERT INTO peminjaman (nomor_pengguna, tanggal_peminjaman, jatuh_tempo, jumlah_peminjaman, bunga, total_bayar, status, updated_at) VALUES ('$peminjaman->nomor_pengguna', '$peminjaman->tanggal_peminjaman', '$peminjaman->jatuh_tempo', '$peminjaman->jumlah_peminjaman', '$peminjaman->bunga', '$peminjaman->total_bayar', '$peminjaman->status', '2023-01-03 12:00:00')";
         $result = mysqli_query($this->conn, $query);
         return $result;
     }
