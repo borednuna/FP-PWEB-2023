@@ -38,14 +38,6 @@ class LaporanAnggotaService
 
     public function create()
     {
-        $tanggal_laporan = new DateTime();
-
-        // check if laporan for current month already exists
-        $laporanAnggota = $this->laporanAnggotaRepository->getLaporanAnggotaByBulanTahun($tanggal_laporan);
-        if ($laporanAnggota) {
-            return;
-        }
-        
         $tanggal_laporan = date('Y-m-d H:i:s');
 
         // get all peminjaman by bulan and tahun

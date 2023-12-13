@@ -18,7 +18,7 @@ class LaporanKeuanganKetuaService
         $this->laporanKeuanganKetuaRepository = new LaporanKeuanganKetuaRepository();
     }
 
-    public function insert($data)
+    public function insert()
     {
         $current_date = \DateTime::createFromFormat('Y-m-d', date('Y-m-d'));
         $bulan = (int) date('m');
@@ -44,6 +44,8 @@ class LaporanKeuanganKetuaService
         foreach ($pengembalian as $p) {
             $jumlah_pengembalian += $p->jumlah_pengembalian;
         }
+
+        $current_date = date('Y-m-d H:i:s');
         
         $laporanKeuanganKetua = new LaporanKeuanganKetua(
             0,
