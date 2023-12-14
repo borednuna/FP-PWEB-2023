@@ -5,6 +5,8 @@ require_once 'vendor/autoload.php';
 
 use App\Routes\Router;
 
+include './src/templates/login-form.html';
+
 // Include the penggunaRoute.php file and get the routes
 $penggunaRoutes = require './src/App/Routes/PenggunaRoute.php';
 $laporanAnggotaRoutes = require './src/App/Routes/LaporanAnggotaRoute.php';
