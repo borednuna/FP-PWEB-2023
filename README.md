@@ -9,3 +9,9 @@ This project is made as final project of web programming subject 2023.
 
 ## Backend Docuemntation
 [Postman](https://documenter.getpostman.com/view/13055513/2s9Ykj9i5B)
+
+## To run
+```
+composer install
+php -S localhost:8000
+```
