@@ -167,8 +167,8 @@
               </h2>
               <p class="text-white">Berikut adalah pinjaman yang belum lunas:</p>
             </div>
-            <div class="flex flex-row gap-16">
-              <div class="grid grid-cols-2 gap-4">
+            <div  class="flex flex-row gap-16">
+              <div id="peminjamanData" class="grid grid-cols-2 gap-4">
                 <div>
                   <div class="flex flex-col gap-8 rounded-md bg-white p-4">
                     <div class="flex">
@@ -203,5 +203,73 @@
       </div>
       <!-- Content Ends -->
     </div>
+    <script>
+      // Function to get cookie value by name
+      function getCookie(name) {
+          const cookies = document.cookie.split(';');
+          for (const cookie of cookies) {
+              const [cookieName, cookieValue] = cookie.trim().split('=');
+              if (cookieName === name) {
+                  return decodeURIComponent(cookieValue);
+              }
+          }
+          return null;
+      }
+    
+      // Get the value of nomor_pengguna from the cookie
+      const nomorPengguna = getCookie('nomor_pengguna');
+    
+      // Check if nomor_pengguna is available in the cookie
+      if (nomorPengguna) {
+          // Fetch data from the endpoint with the dynamic value
+          fetch(`http://localhost:8000/peminjaman_anggota?nomor_pengguna=${nomorPengguna}`)
+              .then(response => response.json())
+              .then(data => {
+                  // Process the data and create HTML content
+                  const peminjamanDataElement = document.getElementById('peminjamanData');
+    
+                  if (data && data.length > 0) {
+                      // Create an HTML template for each item in the data array
+                      const htmlContent = data.map(peminjaman => `
+                            <div>
+                              <div class="flex flex-col gap-8 rounded-md bg-white p-4">
+                                <div class="flex">
+                                  <h2 class="font-semibold text-[#101A30]">
+                                    Nomor Peminjaman ${peminjaman.nomor_peminjaman}
+                                  </h2>
+                                </div>
+                                <div class="flex flex-col gap-8">
+                                  <div class="flex flex-row gap-8">
+                                    <div class="flex flex-col gap-2">
+                                      <h2 class="font-bold text-[#C20C00]">
+                                        Jumlah Peminjaman:
+                                      </h2>
+                                      <p class="font-medium">${peminjaman.jumlah_peminjaman}</p>
+                                    </div>
+                                    <div class="flex flex-col gap-2">
+                                      <h2 class="font-bold text-[#C20C00]">Jatuh Tempo:</h2>
+                                      <p class="font-medium text-[#C20C00]">${peminjaman.jatuh_tempo}</p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                      `).join('');
+    
+                      peminjamanDataElement.innerHTML = htmlContent;
+                  } else {
+                      peminjamanDataElement.innerHTML = '<p>No data available</p>';
+                  }
+              })
+              .catch(error => {
+                  console.error('Error fetching data:', error);
+                  document.getElementById('peminjamanData').innerHTML = '<p>Error fetching data</p>';
+              });
+      } else {
+          // Handle the case where nomor_pengguna is not available in the cookie
+          document.getElementById('peminjamanData').innerHTML = '<p>Nomor Pengguna not available</p>';
+      }
+    </script>
+    
   </body>
 </html>
