@@ -50,7 +50,7 @@
                       />
                     </svg>
   
-                    <a href="" class="text-md font-medium">Peminjaman</a>
+                    <a href="/src/templates/Sekretaris/sekretaris-verifikasi-peminjaman.html" class="text-md font-medium">Peminjaman</a>
                   </div>
                   <div
                     class="flex cursor-pointer flex-row items-center gap-2 py-2 pl-4 text-[#8692A7] transition ease-in-out hover:bg-[#11FC99] hover:text-[#14213D]"
@@ -69,7 +69,7 @@
                       />
                     </svg>
   
-                    <a href="" class="text-md font-medium">Pengembalian</a>
+                    <a href="/src/templates/Sekretaris/sekretaris-verifikasi-pengembalian.html" class="text-md font-medium">Pengembalian</a>
                   </div>
                   <div
                     class="flex cursor-pointer flex-row items-center gap-2 py-2 pl-4 text-[#8692A7] transition ease-in-out hover:bg-[#11FC99] hover:text-[#14213D]"
@@ -88,7 +88,7 @@
                       />
                     </svg>
   
-                    <a href="" class="text-md font-medium">Cari Anggota</a>
+                    <a href="/src/templates/Sekretaris/sekretaris-cari-anggota.html" class="text-md font-medium">Cari Anggota</a>
                   </div>
                 </div>
               </div>
@@ -113,7 +113,7 @@
                     />
                   </svg>
 
-                  <a href="" class="text-md font-medium">Logout</a>
+                  <a href="/src/templates/login-form.html" class="text-md font-medium">Logout</a>
                 </div>
               </div>
             </div>
@@ -134,61 +134,7 @@
             <div class="flex flex-row gap-16">
               <div class="grid grid-cols-2 gap-4">
                 
-                  <div>
-                    <div class="flex flex-col gap-8 rounded-md bg-white p-4">
-                      <div class="flex flex-row justify-between">
-                        <h2 class="font-semibold text-[#101A30]">
-                          #Nomor Peminjaman
-                        </h2>
-                        <p class="font-bold text-[#00C271]">Disetujui</p>
-                      </div>
-                      <div class="flex flex-col gap-8">
-                        <div class="flex flex-col gap-2">
-                          <h2 class="font-semibold text-[#101A30]">
-                            Tanggal Peminjaman:
-                          </h2>
-                          <p class="font-medium text-[#101A30]">
-                            9 Desember 2023
-                          </p>
-                        </div>
-                        <div class="flex flex-row gap-8">
-                          <div class="flex flex-col gap-2">
-                            <h2 class="font-bold text-[#C20C00]">
-                              Jumlah Peminjaman:
-                            </h2>
-                            <p class="font-medium">Rp10.000.000,00-</p>
-                          </div>
-                          <div class="flex flex-col gap-2">
-                            <h2 class="font-bold text-[#00C271]">Bunga:</h2>
-                            <p class="font-medium">1.2%</p>
-                          </div>
-                          <div class="flex flex-col gap-2">
-                            <h2 class="font-bold text-[#00C271]">Total:</h2>
-                            <p class="font-medium">Rp5.000.000,00-</p>
-                          </div>
-                        </div>
-                        <div class="flex flex-col gap-2">
-                          <h2 class="font-semibold text-[#C20C00]">
-                            Tanggal Jatuh Tempo:
-                          </h2>
-                          <p class="font-medium text-[#C20C00]">
-                            9 Desember 2023
-                          </p>
-                        </div>
-                      </div>
-                      <div class="flex flex-row gap-4">
-                        <button
-                          class="w-full rounded-md bg-[#00C271] px-4 py-2 font-semibold text-white transition ease-in-out hover:bg-[#11FC99] hover:text-[#ffffff]"
-                        >
-                          Terima
-                        </button>
-                        <button
-                          class="w-full rounded-md bg-[#CA2A20] px-4 py-2 font-semibold text-white transition ease-in-out hover:bg-[#fc1111] hover:text-[#ffffff]"
-                        >
-                          Tolak
-                        </button>
-                      </div>
-                    </div>
+                  <div class="card-container" id="card-container">
                   </div>
               </div>
             </div>
@@ -197,5 +143,129 @@
       </div>
       <!-- Content Ends -->
     </div>
+
+    <script>
+      var endpoint = "http://localhost:8000/peminjaman_pending";
+
+      fetch(endpoint)
+        .then(response => response.json())
+        .then(data => {
+          renderComponents(data);
+        })
+        .catch(error => console.error('Error fetching data:', error));
+
+      const terimaPeminjaman = (nomor_peminjaman) => {
+        const terima_endpoint = "http://localhost:8000/peminjaman_setujui?nomor_peminjaman=" + nomor_peminjaman;
+
+        fetch(terima_endpoint, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            nomor_peminjaman: nomor_peminjaman
+          })
+        })
+          .then(response => {
+            response.json();
+            window.location.reload();
+          })
+          .then(data => {
+            console.log(data);
+          })
+          .catch(error => console.error('Error fetching data:', error));
+      }
+
+      const tolakPeminjaman = (nomor_peminjaman) => {
+        const tolak_endpoint = "http://localhost:8000/peminjaman_tolak?nomor_peminjaman=" + nomor_peminjaman;
+
+        fetch(tolak_endpoint, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            nomor_peminjaman: nomor_peminjaman
+          })
+        })
+        .then(response => {
+            response.json();
+            window.location.reload();
+          })
+          .then(data => {
+            console.log(data);
+          })
+          .catch(error => console.error('Error fetching data:', error));
+      }
+
+      function renderComponents(data) {
+        const container = document.getElementById('card-container');
+
+        data.forEach(item => {
+          const component = document.createElement('div');
+          
+          component.innerHTML = `
+          <div class="flex flex-col gap-8 rounded-md bg-white p-4">
+            <div class="flex flex-row justify-between">
+              <h2 class="font-semibold text-[#101A30]">
+                #Nomor Peminjaman ${item.nomor_peminjaman}
+              </h2>
+              <p class="font-bold text-[#00C271]">${item.status}</p>
+            </div>
+            <div class="flex flex-col gap-8">
+              <div class="flex flex-col gap-2">
+                <h2 class="font-semibold text-[#101A30]">
+                  Tanggal Peminjaman:
+                </h2>
+                <p class="font-medium text-[#101A30]">
+                  ${item.tanggal_peminjaman}
+                </p>
+              </div>
+              <div class="flex flex-row gap-8">
+                <div class="flex flex-col gap-2">
+                  <h2 class="font-bold text-[#C20C00]">
+                    Jumlah Peminjaman:
+                  </h2>
+                  <p class="font-medium">Rp${item.jumlah_peminjaman},-</p>
+                </div>
+                <div class="flex flex-col gap-2">
+                  <h2 class="font-bold text-[#00C271]">Bunga:</h2>
+                  <p class="font-medium">${item.bunga * 100}%</p>
+                </div>
+                <div class="flex flex-col gap-2">
+                  <h2 class="font-bold text-[#00C271]">Total:</h2>
+                  <p class="font-medium">Rp${item.total_bayar},-</p>
+                </div>
+              </div>
+              <div class="flex flex-col gap-2">
+                <h2 class="font-semibold text-[#C20C00]">
+                  Tanggal Jatuh Tempo:
+                </h2>
+                <p class="font-medium text-[#C20C00]">
+                  ${item.jatuh_tempo}
+                </p>
+              </div>
+            </div>
+            <div class="flex flex-row gap-4">
+              <button
+                onClick="terimaPeminjaman(${item.nomor_peminjaman})"
+                class="w-full rounded-md bg-[#00C271] px-4 py-2 font-semibold text-white transition ease-in-out hover:bg-[#11FC99] hover:text-[#ffffff]"
+              >
+                Terima
+              </button>
+              <button
+                onClick="tolakPeminjaman(${item.nomor_peminjaman})"
+                class="w-full rounded-md bg-[#CA2A20] px-4 py-2 font-semibold text-white transition ease-in-out hover:bg-[#fc1111] hover:text-[#ffffff]"
+              >
+                Tolak
+              </button>
+            </div>
+          </div>
+          `;
+
+          container.appendChild(component);
+        });
+      }
+    </script>
   </body>
 </html>

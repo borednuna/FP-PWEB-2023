@@ -50,7 +50,11 @@
                     />
                   </svg>
 
-                  <a href="" class="text-md font-medium">Peminjaman</a>
+                  <a
+                    href="/src/templates/Sekretaris/sekretaris-verifikasi-peminjaman.html"
+                    class="text-md font-medium"
+                    >Peminjaman</a
+                  >
                 </div>
                 <div
                   class="flex cursor-pointer flex-row items-center gap-2 py-2 pl-4 text-[#8692A7] transition ease-in-out hover:bg-[#11FC99] hover:text-[#14213D]"
@@ -69,7 +73,11 @@
                     />
                   </svg>
 
-                  <a href="" class="text-md font-medium">Pengembalian</a>
+                  <a
+                    href="/src/templates/Sekretaris/sekretaris-verifikasi-pengembalian.html"
+                    class="text-md font-medium"
+                    >Pengembalian</a
+                  >
                 </div>
                 <div
                   class="flex cursor-pointer flex-row items-center gap-2 bg-[#11FC99] py-2 pl-4 text-[#14213D] transition ease-in-out"
@@ -88,7 +96,11 @@
                     />
                   </svg>
 
-                  <a href="" class="text-md font-medium">Cari Anggota</a>
+                  <a
+                    href="/src/templates/Sekretaris/sekretaris-cari-anggota.html"
+                    class="text-md font-medium"
+                    >Cari Anggota</a
+                  >
                 </div>
               </div>
             </div>
@@ -113,7 +125,7 @@
                     />
                   </svg>
 
-                  <a href="" class="text-md font-medium">Logout</a>
+                  <a href="/src/templates/login-form.html" class="text-md font-medium">Logout</a>
                 </div>
               </div>
             </div>
@@ -132,6 +144,7 @@
             <div class="flex flex-row gap-16">
               <div>
                 <form
+                  id="form-search-anggota"
                   action=""
                   class="flex w-[30rem] items-center justify-center rounded-md bg-[#14213D] px-4 py-8"
                 >
@@ -141,12 +154,13 @@
                         Cari Anggota
                       </h2>
                       <input
-                        type="text"
+                        type="username"
                         placeholder="Masukan nama anggota"
                         class="rounded-md border-2 border-[#14213D] px-4 py-2"
                       />
                     </div>
                     <button
+                    type="submit"
                       class="rounded-md bg-[#323E5A] px-4 py-2 font-semibold text-white transition ease-in-out hover:bg-[#11FC99] hover:text-[#14213D]"
                     >
                       Cari Anggota
@@ -155,25 +169,7 @@
                 </form>
               </div>
               <div class="grid grid-cols-2 gap-4">
-                <div>
-                  <div class="flex flex-col gap-8 rounded-md bg-white p-4">
-                    <div class="flex flex-col gap-4">
-                      <div class="flex flex-row justify-between gap-16">
-                        <h2 class="font-semibold text-[#14213D]">
-                          Hanun Shaka
-                        </h2>
-                        <p>#Anggota 01</p>
-                      </div>
-                      <h2 class="text-medium text-[#14213D]">
-                        Jalan Arif Rahman Hakim
-                      </h2>
-                    </div>
-                    <button
-                      class="rounded-md bg-[#323E5A] px-4 py-2 font-semibold text-white transition ease-in-out hover:bg-[#11FC99] hover:text-[#14213D]"
-                    >
-                      Riwayat
-                    </button>
-                  </div>
+                <div id="card-container">
                 </div>
               </div>
             </div>
@@ -182,5 +178,69 @@
       </div>
       <!-- Content Ends -->
     </div>
+
+    <script>
+      document
+        .getElementById("form-search-anggota")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+          const username = document.querySelector('input[type="username"]').value;
+          findUser(username);
+        });
+
+      const findUser = (username) => {
+        var user_api = "http://localhost:8000/username?username=" + username;
+
+        fetch(user_api, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              console.log(data);
+              renderData(data);
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+            });
+      }
+
+      function renderData(data) {
+        const container = document.getElementById("card-container");
+        while (container.firstChild) {
+          container.removeChild(container.firstChild);
+        }
+
+        data.forEach(item => {
+          const component = document.createElement("div");
+
+          component.innerHTML = `
+            <div class="flex flex-col gap-8 rounded-md bg-white p-4">
+              <div class="flex flex-col gap-4">
+                <div class="flex flex-row justify-between gap-16">
+                  <h2 class="font-semibold text-[#14213D]">
+                    ${item.nama_pengguna}
+                  </h2>
+                  <p>#Anggota ${item.nomor_pengguna}</p>
+                </div>
+                <h2 class="text-medium text-[#14213D]">
+                  ${item.alamat}
+                </h2>
+              </div>
+              <a href="/src/templates/Sekretaris/sekretaris-riwayat-anggota.html">
+                <button
+                  class="rounded-md bg-[#323E5A] px-4 py-2 font-semibold text-white transition ease-in-out hover:bg-[#11FC99] hover:text-[#14213D]"
+                >
+                  Riwayat
+                </button>
+              </a>
+            </div>
+          `;
+          container.appendChild(component);
+        })
+      }
+    </script>
   </body>
 </html>

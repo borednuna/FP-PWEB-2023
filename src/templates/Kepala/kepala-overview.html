@@ -51,7 +51,7 @@
                     />
                   </svg>
 
-                  <a href="" class="text-md font-medium">Overview</a>
+                  <a href="/src/templates/Kepala/kepala-overview.html" class="text-md font-medium">Overview</a>
                 </div>
               </div>
             </div>
@@ -76,7 +76,7 @@
                     />
                   </svg>
 
-                  <a href="" class="text-md font-medium">Logout</a>
+                  <a href="/src/templates/login-form.html" class="text-md font-medium">Logout</a>
                 </div>
               </div>
             </div>
@@ -99,26 +99,27 @@
             <div class="flex flex-row gap-16">
               <div>
                 <form
+                  id="form-search"
                   action=""
                   class="flex w-[30rem] items-center justify-center rounded-md bg-[#14213D] px-4 py-8"
                 >
                   <div class="flex w-[25rem] flex-col gap-4">
                     <div class="flex flex-col gap-2">
-                      <h2 class="text-md font-semibold text-white">Bulan</h2>
+                      <h2 class="text-md font-semibold text-white">Bulan Tahun</h2>
                       <input
                         type="month"
                         placeholder="Masukan Bulan"
                         class="rounded-md border-2 border-[#14213D] px-4 py-2"
                       />
                     </div>
-                    <div class="flex flex-col gap-2">
+                    <!-- <div class="flex flex-col gap-2">
                       <h2 class="text-md font-semibold text-white">Tahun</h2>
                       <input
                         type="year"
                         placeholder="Masukan Tahun"
                         class="rounded-md border-2 border-[#14213D] px-4 py-2"
                       />
-                    </div>
+                    </div> -->
                     <button
                       class="rounded-md bg-[#323E5A] px-4 py-2 font-semibold text-white transition ease-in-out hover:bg-[#11FC99] hover:text-[#14213D]"
                     >
@@ -128,63 +129,8 @@
                 </form>
               </div>
               <div class="grid grid-cols-2 gap-4">
-                <div>
-                  <div class="flex flex-col gap-8 rounded-md bg-white p-4">
-                    <div class="flex flex-col gap-4">
-                      <h2 class="font-semibold text-[#14213D]">
-                        Desember 2023
-                      </h2>
-                      <div class="flex flex-row gap-8">
-                        <div class="flex flex-col gap-2">
-                          <h2 class="font-bold text-[#C20C00]">
-                            Jumlah Dipinjamkan:
-                          </h2>
-                          <p class="font-medium">Rp10.000.000,00-</p>
-                        </div>
-                        <div class="flex flex-col gap-2">
-                          <h2 class="font-bold text-[#00C271]">
-                            Jumlah Dikembalikan:
-                          </h2>
-                          <p class="font-medium">Rp5.000.000,00-</p>
-                        </div>
-                      </div>
-                    </div>
-                    <button
-                      class="rounded-md bg-[#323E5A] px-4 py-2 font-semibold text-white transition ease-in-out hover:bg-[#11FC99] hover:text-[#14213D]"
-                    >
-                      Cetak Laporan
-                    </button>
-                  </div>
+                <div id="container">
                 </div>
-                <div>
-                  <div class="flex flex-col gap-8 rounded-md bg-white p-4">
-                    <div class="flex flex-col gap-4">
-                      <h2 class="font-semibold text-[#14213D]">
-                        Desember 2023
-                      </h2>
-                      <div class="flex flex-row gap-8">
-                        <div class="flex flex-col gap-2">
-                          <h2 class="font-bold text-[#C20C00]">
-                            Jumlah Dipinjamkan:
-                          </h2>
-                          <p class="font-medium">Rp10.000.000,00-</p>
-                        </div>
-                        <div class="flex flex-col gap-2">
-                          <h2 class="font-bold text-[#00C271]">
-                            Jumlah Dikembalikan:
-                          </h2>
-                          <p class="font-medium">Rp5.000.000,00-</p>
-                        </div>
-                      </div>
-                    </div>
-                    <button
-                      class="rounded-md bg-[#323E5A] px-4 py-2 font-semibold text-white transition ease-in-out hover:bg-[#11FC99] hover:text-[#14213D]"
-                    >
-                      Cetak Laporan
-                    </button>
-                  </div>
-                </div>
-                
               </div>
             </div>
           </div>
@@ -192,5 +138,81 @@
       </div>
       <!-- Content Ends -->
     </div>
+
+    <script>
+      document
+        .getElementById("form-search")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+          const bulan = document.querySelector('input[type="month"]').value;
+          
+          const [year, monthNumber] = bulan.split('-');
+
+          const monthNames = [
+              'januari', 'februari', 'maret', 'april',
+              'mei', 'juni', 'juli', 'agustus',
+              'september', 'oktober', 'november', 'desember'
+          ];
+
+          const month = monthNames[parseInt(monthNumber, 10) - 1];
+          
+          findMonthYear(month, year);
+        });
+
+      var endpoint = "http://localhost:8000/all_laporan_keuangan_ketua";
+
+      const findMonthYear = (month, year) => {
+        var month_year_api = "http://localhost:8000/laporan_ketua_bulan_tahun?bulan=" + month + "&tahun=" + year;
+
+        fetch(month_year_api)
+          .then(response => response.json())
+          .then(data => {
+            console.log(data);
+            renderComponents(data);
+          })
+          .catch(error => console.error('Error fetching data:', error));
+      }
+
+      function renderComponents(data) {
+        const container = document.getElementById("container");
+        while (container.firstChild) {
+          container.removeChild(container.firstChild);
+        }
+
+        data.forEach(item => {
+          const component = document.createElement("div");
+
+          component.innerHTML = `
+            <div class="flex flex-col gap-8 rounded-md bg-white p-4">
+              <div class="flex flex-col gap-4">
+                <h2 class="font-semibold text-[#14213D]">
+                  ${item.bulan} ${item.tahun}
+                </h2>
+                <div class="flex flex-row gap-8">
+                  <div class="flex flex-col gap-2">
+                    <h2 class="font-bold text-[#C20C00]">
+                      Jumlah Dipinjamkan:
+                    </h2>
+                    <p class="font-medium">Rp${item.jumlah_peminjaman},00-</p>
+                  </div>
+                  <div class="flex flex-col gap-2">
+                    <h2 class="font-bold text-[#00C271]">
+                      Jumlah Dikembalikan:
+                    </h2>
+                    <p class="font-medium">Rp${item.jumlah_pengembalian},00-</p>
+                  </div>
+                </div>
+              </div>
+              <button
+                class="rounded-md bg-[#323E5A] px-4 py-2 font-semibold text-white transition ease-in-out hover:bg-[#11FC99] hover:text-[#14213D]"
+              >
+                Cetak Laporan
+              </button>
+            </div>
+          `;
+          container.appendChild(component);
+        });
+        }
+    </script>
   </body>
 </html>

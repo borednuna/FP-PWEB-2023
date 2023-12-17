@@ -50,7 +50,11 @@
                     />
                   </svg>
 
-                  <a href="" class="text-md font-medium">Peminjaman</a>
+                  <a
+                    href="/src/templates/Sekretaris/sekretaris-verifikasi-peminjaman.html"
+                    class="text-md font-medium"
+                    >Peminjaman</a
+                  >
                 </div>
                 <div
                   class="flex cursor-pointer flex-row items-center gap-2 py-2 pl-4 text-[#8692A7] transition ease-in-out hover:bg-[#11FC99] hover:text-[#14213D]"
@@ -69,7 +73,7 @@
                     />
                   </svg>
 
-                  <a href="" class="text-md font-medium">Pengembalian</a>
+                  <a href="/src/templates/Sekretaris/sekretaris-verifikasi-pengembalian.html" class="text-md font-medium">Pengembalian</a>
                 </div>
                 <div
                   class="flex cursor-pointer flex-row items-center gap-2 bg-[#11FC99] py-2 pl-4 text-[#14213D] transition ease-in-out"
@@ -88,7 +92,11 @@
                     />
                   </svg>
 
-                  <a href="" class="text-md font-medium">Cari Anggota</a>
+                  <a
+                    href="/src/templates/Sekretaris/sekretaris-cari-anggota.html"
+                    class="text-md font-medium"
+                    >Cari Anggota</a
+                  >
                 </div>
               </div>
             </div>
@@ -113,7 +121,7 @@
                     />
                   </svg>
 
-                  <a href="" class="text-md font-medium">Logout</a>
+                  <a href="/src/templates/login-form.html" class="text-md font-medium">Logout</a>
                 </div>
               </div>
             </div>
@@ -126,7 +134,7 @@
         <div class="px-16 py-16">
           <div class="flex flex-col gap-8">
             <div class="flex flex-col gap-4">
-              <h2 class="text-5xl font-bold text-white">Hanun Shaka</h2>
+              <h2 class="text-5xl font-bold text-white">Dimas Prihady</h2>
               <p class="text-white">
                 Berikut adalah overview laporan keuangan bulanan
               </p>
@@ -135,97 +143,16 @@
               <h2 class="text-2xl font-bold text-white">Peminjaman</h2>
               <div class="flex flex-row gap-16">
                 <div class="grid grid-flow-col grid-rows-1 gap-4">
-                  <div>
-                    <div class="flex flex-col gap-8 rounded-md bg-white p-4">
-                      <div class="flex flex-row justify-between">
-                        <h2 class="font-semibold text-[#101A30]">
-                          #Nomor Peminjaman
-                        </h2>
-                        <p class="font-bold text-[#00C271]">Disetujui</p>
-                      </div>
-                      <div class="flex flex-col gap-8">
-                        <div class="flex flex-col gap-2">
-                          <h2 class="font-semibold text-[#101A30]">
-                            Tanggal Peminjaman:
-                          </h2>
-                          <p class="font-medium text-[#101A30]">
-                            9 Desember 2023
-                          </p>
-                        </div>
-                        <div class="flex flex-row gap-8">
-                          <div class="flex flex-col gap-2">
-                            <h2 class="font-bold text-[#C20C00]">
-                              Jumlah Peminjaman:
-                            </h2>
-                            <p class="font-medium">Rp10.000.000,00-</p>
-                          </div>
-                          <div class="flex flex-col gap-2">
-                            <h2 class="font-bold text-[#00C271]">Bunga:</h2>
-                            <p class="font-medium">1.2%</p>
-                          </div>
-                          <div class="flex flex-col gap-2">
-                            <h2 class="font-bold text-[#00C271]">Total:</h2>
-                            <p class="font-medium">Rp5.000.000,00-</p>
-                          </div>
-                        </div>
-                        <div class="flex flex-col gap-2">
-                          <h2 class="font-semibold text-[#C20C00]">
-                            Tanggal Jatuh Tempo:
-                          </h2>
-                          <p class="font-medium text-[#C20C00]">
-                            9 Desember 2023
-                          </p>
-                        </div>
-                      </div>
-                    </div>
+                  <div id="peminjaman-container" style="display: flex; flex-wrap: wrap; flex-direction: row;">
                   </div>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-4">
-              <h2 class="text-2xl font-bold text-white">Pengambilan</h2>
+              <h2 class="text-2xl font-bold text-white">Pengembalian</h2>
               <div class="flex flex-row gap-16">
                 <div class="grid grid-flow-col grid-rows-1 gap-4">
-                  <div>
-                    <div class="flex flex-col gap-8 rounded-md bg-white p-4">
-                      <div class="flex flex-row justify-between">
-                        <h2 class="font-semibold text-[#101A30]">
-                          #Nomor Pengembalian
-                        </h2>
-                        <p class="font-bold text-[#FF9900]">Menunggu</p>
-                      </div>
-                      <div class="flex flex-col gap-8">
-                        <div class="flex flex-col gap-2">
-                          <h2 class="font-semibold text-[#101A30]">
-                            Tanggal Pengembalian:
-                          </h2>
-                          <p class="font-medium text-[#101A30]">
-                            9 Desember 2023
-                          </p>
-                        </div>
-                        <div class="flex flex-row gap-8">
-                          <div class="flex flex-col gap-2">
-                            <h2 class="font-bold text-[#101A30]">
-                              Nomor Peminjaman:
-                            </h2>
-                            <p class="font-medium">001</p>
-                          </div>
-
-                          <div class="flex flex-col gap-2">
-                            <h2 class="font-bold text-[#101A30]">
-                              Jumlah Pengembalian:
-                            </h2>
-                            <p class="font-medium">Rp10.000.000,00-</p>
-                          </div>
-                          <div class="flex flex-col gap-2">
-                            <h2 class="font-bold text-[#C20C00]">
-                              Sisa Peminjaman:
-                            </h2>
-                            <p class="font-medium">Rp0,00-</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                  <div id="pengembalian-container" style="display: flex; flex-wrap: wrap; flex-direction: row;">
                   </div>
                 </div>
               </div>
@@ -235,5 +162,132 @@
       </div>
       <!-- Content Ends -->
     </div>
+
+    <script>
+      var peminjaman_endpoint = "http://localhost:8000/peminjaman_anggota?nomor_pengguna=1";
+
+      fetch(peminjaman_endpoint)
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+          renderPeminjamanComponents(data);
+        })
+        .catch(error => console.error('Error fetching data:', error));
+
+      function renderPeminjamanComponents(data) {
+        const container = document.getElementById("peminjaman-container");
+
+        data.forEach(item => {
+          const component = document.createElement("div");
+
+          component.innerHTML =`
+            <div class="m-4 flex flex-col gap-8 rounded-md bg-white p-4">
+              <div class="flex flex-row justify-between">
+                <h2 class="font-semibold text-[#101A30]">
+                  #Nomor Peminjaman ${item.nomor_peminjaman}
+                </h2>
+                <p class="font-bold text-[#00C271]">${item.status}</p>
+              </div>
+              <div class="flex flex-col gap-8">
+                <div class="flex flex-col gap-2">
+                  <h2 class="font-semibold text-[#101A30]">
+                    Tanggal Peminjaman:
+                  </h2>
+                  <p class="font-medium text-[#101A30]">
+                    ${item.tanggal_peminjaman}
+                  </p>
+                </div>
+                <div class="flex flex-row gap-8">
+                  <div class="flex flex-col gap-2">
+                    <h2 class="font-bold text-[#C20C00]">
+                      Jumlah Peminjaman:
+                    </h2>
+                    <p class="font-medium">Rp${item.jumlah_peminjaman},00-</p>
+                  </div>
+                  <div class="flex flex-col gap-2">
+                    <h2 class="font-bold text-[#00C271]">Bunga:</h2>
+                    <p class="font-medium">${item.bunga * 100}%</p>
+                  </div>
+                  <div class="flex flex-col gap-2">
+                    <h2 class="font-bold text-[#00C271]">Total:</h2>
+                    <p class="font-medium">Rp${item.total_bayar},00-</p>
+                  </div>
+                </div>
+                <div class="flex flex-col gap-2">
+                  <h2 class="font-semibold text-[#C20C00]">
+                    Tanggal Jatuh Tempo:
+                  </h2>
+                  <p class="font-medium text-[#C20C00]">
+                    ${item.jatuh_tempo}
+                  </p>
+                </div>
+              </div>
+            </div>
+          `;
+          container.appendChild(component);
+        })
+      }
+
+      var pengembalian_endpoint = "http://localhost:8000/pengembalian_anggota?nomor_pengguna=1";
+
+      fetch(pengembalian_endpoint)
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+          renderPengembalianComponents(data);
+        })
+        .catch(error => console.error('Error fetching data:', error));
+
+      function renderPengembalianComponents(data) {
+        const container = document.getElementById("pengembalian-container");
+
+        data.forEach(item => {
+          const component = document.createElement("div");
+
+          component.innerHTML =`
+            <div class="m-4 flex flex-col gap-8 rounded-md bg-white p-4">
+              <div class="flex flex-row justify-between">
+                <h2 class="font-semibold text-[#101A30]">
+                  #Nomor Pengembalian ${item.nomor_pengembalian}
+                </h2>
+                <p class="font-bold text-[#FF9900]">${item.status}</p>
+              </div>
+              <div class="flex flex-col gap-8">
+                <div class="flex flex-col gap-2">
+                  <h2 class="font-semibold text-[#101A30]">
+                    Tanggal Pengembalian:
+                  </h2>
+                  <p class="font-medium text-[#101A30]">
+                    ${item.tanggal_pengembalian}
+                  </p>
+                </div>
+                <div class="flex flex-row gap-8">
+                  <div class="flex flex-col gap-2">
+                    <h2 class="font-bold text-[#101A30]">
+                      Nomor Peminjaman: ${item.nomor_peminjaman}
+                    </h2>
+                    <p class="font-medium">001</p>
+                  </div>
+
+                  <div class="flex flex-col gap-2">
+                    <h2 class="font-bold text-[#101A30]">
+                      Jumlah Pengembalian:
+                    </h2>
+                    <p class="font-medium">Rp${item.jumlah_pengembalian},00-</p>
+                  </div>
+                  <div class="flex flex-col gap-2">
+                    <h2 class="font-bold text-[#C20C00]">
+                      Sisa Peminjaman:
+                    </h2>
+                    <p class="font-medium">Rp${item.sisa_pinjaman},00-</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+          container.appendChild(component);
+        })
+      }
+    </script>
   </body>
 </html>
