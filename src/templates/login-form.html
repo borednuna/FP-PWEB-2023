@@ -16,7 +16,9 @@
     <header class="bg-[#14213D]">
       <div class="flex flex-row px-6 py-4">
         <a href="http://localhost:8000/">
-          <h2 class="text-md font-semibold text-[#11FC99]">MyITS Cooperative</h2>
+          <h2 class="text-md font-semibold text-[#11FC99]">
+            MyITS Cooperative
+          </h2>
         </a>
       </div>
     </header>
@@ -48,7 +50,7 @@
                 />
               </div>
               <button
-              type="submit"
+                type="submit"
                 class="rounded-md bg-[#14213D] px-4 py-2 font-semibold text-white transition ease-in-out hover:bg-[#11FC99] hover:text-[#14213D]"
               >
                 Login
@@ -68,42 +70,49 @@
     </div>
 
     <script>
-      document.getElementById('loginForm').addEventListener('submit', function(event) {
-        event.preventDefault();
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
 
-        const email = document.querySelector('input[type="email"]').value;
-        const password = document.querySelector('input[type="password"]').value;
-        const data = {
-          "email": email,
-          "password": password,
-        }
+          const email = document.querySelector('input[type="email"]').value;
+          const password = document.querySelector(
+            'input[type="password"]'
+          ).value;
+          const data = {
+            email: email,
+            password: password,
+          };
 
-        const endpoint = 'http://localhost:8000/login';
+          const endpoint = "http://localhost:8000/login";
 
-        fetch(endpoint, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-        })
-        .then(response => response.json())
-        .then(data => {
-          console.log(data);
-          if (data === 'anggota') {
-            window.location.href = '/src/templates/Anggota/anggota-overview.html';
-          } else if (data === 'sekretaris') {
-            window.location.href = '/src/templates/Sekretaris/sekretaris-cari-anggota.html';
-          } else if (data === 'ketua') {
-            window.location.href = 'src/templates/Kepala/kepala-overview.html';
-          } else {
-              location.reload();
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error);
+          fetch(endpoint, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              console.log(data);
+              if (data === "anggota") {
+                window.location.href =
+                  "/src/templates/Anggota/anggota-overview.html";
+              } else if (data === "sekretaris") {
+                window.location.href =
+                  "/src/templates/Sekretaris/sekretaris-cari-anggota.html";
+              } else if (data === "ketua") {
+                window.location.href =
+                  "/src/templates/Kepala/kepala-overview.html";
+              } else {
+                location.reload();
+              }
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+            });
         });
-      });
     </script>
   </body>
 </html>
