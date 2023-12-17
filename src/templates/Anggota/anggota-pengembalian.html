@@ -201,59 +201,7 @@
               </p>
             </div>
             <div class="flex flex-row gap-16">
-              <div class="grid grid-cols-2 gap-4">
-                <div>
-                  <div class="flex flex-col gap-8 rounded-md bg-white p-4">
-                    <div class="flex flex-row justify-between">
-                      <h2 class="font-semibold text-[#101A30]">
-                        #Nomor Pengembalian
-                      </h2>
-                      <p class="font-bold text-[#FF9900]">Menunggu</p>
-                    </div>
-                    <div class="flex flex-col gap-8">
-                      <div class="flex flex-col gap-2">
-                        <h2 class="font-semibold text-[#101A30]">
-                          Tanggal Pengembalian:
-                        </h2>
-                        <p class="font-medium text-[#101A30]">
-                          9 Desember 2023
-                        </p>
-                      </div>
-                      <div class="flex flex-row gap-8">
-                        <div class="flex flex-col gap-2">
-                          <h2 class="font-bold text-[#101A30]">
-                            Nomor Peminjaman:
-                          </h2>
-                          <p class="font-medium">001</p>
-                        </div>
-
-                        <div class="flex flex-col gap-2">
-                          <h2 class="font-bold text-[#101A30]">
-                            Jumlah Pengembalian:
-                          </h2>
-                          <p class="font-medium">Rp10.000.000,00-</p>
-                        </div>
-                        <div class="flex flex-col gap-2">
-                          <h2 class="font-bold text-[#C20C00]">
-                            Sisa Peminjaman:
-                          </h2>
-                          <p class="font-medium">Rp0,00-</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="flex">
-                      <a
-                        href="/src/templates/Anggota/anggota-ajukan-pengembalian.html"
-                      >
-                        <button
-                          class="w-full rounded-md bg-[#323E5A] px-4 py-2 font-semibold text-white transition ease-in-out hover:bg-[#11FC99] hover:text-[#101A30]"
-                        >
-                          Cetak Bukti
-                        </button>
-                      </a>
-                    </div>
-                  </div>
-                </div>
+              <div id="pengembalianData" class="grid grid-cols-2 gap-4">
               </div>
             </div>
           </div>
@@ -261,5 +209,102 @@
       </div>
       <!-- Content Ends -->
     </div>
+    <script>
+      // Function to get cookie value by name
+      function getCookie(name) {
+          const cookies = document.cookie.split(';');
+          for (const cookie of cookies) {
+              const [cookieName, cookieValue] = cookie.trim().split('=');
+              if (cookieName === name) {
+                  return decodeURIComponent(cookieValue);
+              }
+          }
+          return null;
+      }
+    
+      // Get the value of nomor_pengguna from the cookie
+      const nomorPengguna = getCookie('nomor_pengguna');
+    
+      // Check if nomor_pengguna is available in the cookie
+      if (nomorPengguna) {
+          // Fetch data from the endpoint with the dynamic value
+          fetch(`http://localhost:8000/pengembalian_anggota?nomor_pengguna=${nomorPengguna}`)
+              .then(response => response.json())
+              .then(data => {
+                  // Process the data and create HTML content
+                  console.log(data);
+                  const pengembalianDataElement = document.getElementById('pengembalianData');
+    
+                  if (data && data.length > 0) {
+                      // Create an HTML template for each item in the data array
+                      const htmlContent = data.map(pengembalian => `
+                      <div>
+                        <div class="flex flex-col gap-8 rounded-md bg-white p-4">
+                          <div class="flex flex-row justify-between">
+                            <h2 class="font-semibold text-[#101A30]">
+                              #Nomor Pengembalian ${pengembalian.nomor_pengembalian}
+                            </h2>
+                            <p class="font-bold text-[#FF9900]">Menunggu</p>
+                          </div>
+                          <div class="flex flex-col gap-8">
+                            <div class="flex flex-col gap-2">
+                              <h2 class="font-semibold text-[#101A30]">
+                                Tanggal Pengembalian:
+                              </h2>
+                              <p class="font-medium text-[#101A30]">
+                                ${pengembalian.tanggal_pengembalian}
+                              </p>
+                            </div>
+                            <div class="flex flex-row gap-8">
+                              <div class="flex flex-col gap-2">
+                                <h2 class="font-bold text-[#101A30]">
+                                  Nomor Peminjaman:
+                                </h2>
+                                <p class="font-medium">${pengembalian.nomor_peminjaman}</p>
+                              </div>
+      
+                              <div class="flex flex-col gap-2">
+                                <h2 class="font-bold text-[#101A30]">
+                                  Jumlah Pengembalian:
+                                </h2>
+                                <p class="font-medium">${pengembalian.jumlah_pengembalian}</p>
+                              </div>
+                              <div class="flex flex-col gap-2">
+                                <h2 class="font-bold text-[#C20C00]">
+                                  Sisa Peminjaman:
+                                </h2>
+                                <p class="font-medium">${pengembalian.sisa_pinjaman}</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="flex">
+                            <a
+                              href="/src/templates/Anggota/anggota-ajukan-pengembalian.html"
+                            >
+                              <button
+                                class="w-full rounded-md bg-[#323E5A] px-4 py-2 font-semibold text-white transition ease-in-out hover:bg-[#11FC99] hover:text-[#101A30]"
+                              >
+                                Cetak Bukti
+                              </button>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                      `).join('');
+    
+                      pengembalianDataElement.innerHTML = htmlContent;
+                  } else {
+                    pengembalianDataElement.innerHTML = '<p class="text-white">No data available</p>';
+                  }
+              })
+              .catch(error => {
+                  console.error('Error fetching data:', error);
+                  document.getElementById('pengembalianData').innerHTML = '<p>Error fetching data</p>';
+              });
+      } else {
+          // Handle the case where nomor_pengguna is not available in the cookie
+          document.getElementById('pengembalianData').innerHTML = '<p class="text-white">Nomor Pengguna not available</p>';
+      }
+    </script>
   </body>
 </html>

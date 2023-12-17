@@ -51,7 +51,11 @@
                     />
                   </svg>
 
-                  <a href="/src/templates/Anggota/anggota-overview.html" class="text-md font-medium">Overview</a>
+                  <a
+                    href="/src/templates/Anggota/anggota-overview.html"
+                    class="text-md font-medium"
+                    >Overview</a
+                  >
                 </div>
               </div>
             </div>
@@ -76,7 +80,11 @@
                     />
                   </svg>
 
-                  <a href="/src/templates/Anggota/anggota-peminjaman.html" class="text-md font-medium">Peminjaman</a>
+                  <a
+                    href="/src/templates/Anggota/anggota-peminjaman.html"
+                    class="text-md font-medium"
+                    >Peminjaman</a
+                  >
                 </div>
                 <div
                   class="flex cursor-pointer flex-row items-center gap-2 py-2 pl-4 text-[#8692A7] transition ease-in-out hover:bg-[#11FC99] hover:text-[#14213D]"
@@ -95,7 +103,11 @@
                     />
                   </svg>
 
-                  <a href="/src/templates/Anggota/anggota-pengembalian.html" class="text-md font-medium">Pengembalian</a>
+                  <a
+                    href="/src/templates/Anggota/anggota-pengembalian.html"
+                    class="text-md font-medium"
+                    >Pengembalian</a
+                  >
                 </div>
                 <div
                   class="flex cursor-pointer flex-row items-center gap-2 py-2 pl-4 text-[#8692A7] transition ease-in-out hover:bg-[#11FC99] hover:text-[#14213D]"
@@ -114,9 +126,15 @@
                     />
                   </svg>
 
-                  <a href="/src/templates/Anggota/anggota-ajukan-peminjaman.html" class="text-md font-medium">Ajukan Peminjaman</a>
+                  <a
+                    href="/src/templates/Anggota/anggota-ajukan-peminjaman.html"
+                    class="text-md font-medium"
+                    >Ajukan Peminjaman</a
+                  >
                 </div>
-                <div class="flex cursor-pointer flex-row items-center gap-2 bg-[#11FC99] py-2 pl-4 text-[#14213D] transition ease-in-out"">
+                <div
+                  class="flex cursor-pointer flex-row items-center gap-2 bg-[#11FC99] py-2 pl-4 text-[#14213D] transition ease-in-out"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="20"
@@ -131,7 +149,11 @@
                     />
                   </svg>
 
-                  <a href="/src/templates/Anggota/anggota-ajukan-pengembalian.html" class="text-md font-medium">Ajukan Pengembalian</a>
+                  <a
+                    href="/src/templates/Anggota/anggota-ajukan-pengembalian.html"
+                    class="text-md font-medium"
+                    >Ajukan Pengembalian</a
+                  >
                 </div>
               </div>
             </div>
@@ -156,7 +178,11 @@
                     />
                   </svg>
 
-                  <a href="/src/templates/login-form.html" class="text-md font-medium">Logout</a>
+                  <a
+                    href="/src/templates/login-form.html"
+                    class="text-md font-medium"
+                    >Logout</a
+                  >
                 </div>
               </div>
             </div>
@@ -174,6 +200,7 @@
             </p>
           </div>
           <form
+            id="form-ajukan-pengembalian"
             action=""
             class="flex w-[30rem] items-center justify-center rounded-md bg-[#14213D] px-4 py-8"
           >
@@ -183,8 +210,20 @@
                   Nominal Pembayaran
                 </h2>
                 <input
-                  type="text"
+                  type="number"
+                  id="nominal_pembayaran"
                   placeholder="Masukan nominal"
+                  class="rounded-md border-2 border-[#14213D] px-4 py-2"
+                />
+              </div>
+              <div class="flex flex-col gap-2">
+                <h2 class="text-md font-semibold text-white">
+                  Nomor Peminjaman
+                </h2>
+                <input
+                  id="nomor_peminjaman"
+                  type="nomor_peminjaman"
+                  placeholder="Masukan nomor peminjaman"
                   class="rounded-md border-2 border-[#14213D] px-4 py-2"
                 />
               </div>
@@ -203,7 +242,6 @@
                       id="fileInput"
                       class="hidden"
                       accept=".png, .jpg, .jpeg"
-                      onchange="updateFileNameDisplay()"
                     />
                   </label>
                 </div>
@@ -219,19 +257,48 @@
       </div>
       <!-- Content Ends -->
     </div>
+    <script>
+      // function updateFileNameDisplay() {
+      //   const fileInput = document.getElementById("form-ajukan-pengembalian");
+      //   const fileNameDisplay = document.getElementById("fileNameDisplay");
+      //   const nomor_pinjam = document.getElementById("formInput");
+
+      //   if (fileInput.files.length > 0) {
+      //     const fileName = fileInput.files[0].name;
+      //     fileNameDisplay.textContent = fileName;
+      //   } else {
+      //     fileNameDisplay.textContent = "Pilih File";
+      //   }
+      // }
+
+      document
+        .getElementById("form-ajukan-pengembalian")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+          const jumlah_pengembalian = document.getElementById("nominal_pembayaran").value;
+          const nomor_peminjaman = document.getElementById("nomor_peminjaman").value;
+          const bukti_bayar = document.getElementById("fileInput").files[0];
+
+          const url = "http://localhost:8000/pengembalian";
+
+          const time_now = new Date();
+          const data = new FormData();
+          data.append("nomor_peminjaman", nomor_peminjaman);
+          data.append("jumlah_pengembalian", jumlah_pengembalian);
+          data.append("bukti_bayar", bukti_bayar, time_now.getTime() + ".jpg");
+
+          fetch(url, {
+            method: "POST",
+            body: data,
+          })
+            .then((response) => {
+              console.log(response);
+              window.location.href = "/src/templates/Anggota/anggota-pengembalian.html";
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+            });
+        })
+    </script>
   </body>
 </html>
-
-<script>
-  function updateFileNameDisplay() {
-    const fileInput = document.getElementById("fileInput");
-    const fileNameDisplay = document.getElementById("fileNameDisplay");
-
-    if (fileInput.files.length > 0) {
-      const fileName = fileInput.files[0].name;
-      fileNameDisplay.textContent = fileName;
-    } else {
-      fileNameDisplay.textContent = "Pilih File";
-    }
-  }
-</script>
