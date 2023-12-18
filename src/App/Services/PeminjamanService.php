@@ -24,7 +24,6 @@ class PeminjamanService
 
     public function getAll()
     {
-        var_dump($this->nomor_pengguna);
         $result = $this->peminjamanRepository->getAll();
         return $result;
     }
