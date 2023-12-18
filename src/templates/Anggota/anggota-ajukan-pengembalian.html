@@ -211,7 +211,19 @@
                 </h2>
                 <input
                   type="number"
+                  id="nominal_pembayaran"
                   placeholder="Masukan nominal"
+                  class="rounded-md border-2 border-[#14213D] px-4 py-2"
+                />
+              </div>
+              <div class="flex flex-col gap-2">
+                <h2 class="text-md font-semibold text-white">
+                  Nomor Peminjaman
+                </h2>
+                <input
+                  id="nomor_peminjaman"
+                  type="nomor_peminjaman"
+                  placeholder="Masukan nomor peminjaman"
                   class="rounded-md border-2 border-[#14213D] px-4 py-2"
                 />
               </div>
@@ -230,7 +242,6 @@
                       id="fileInput"
                       class="hidden"
                       accept=".png, .jpg, .jpeg"
-                      onchange="updateFileNameDisplay()"
                     />
                   </label>
                 </div>
@@ -247,47 +258,47 @@
       <!-- Content Ends -->
     </div>
     <script>
-      function updateFileNameDisplay() {
-        const fileInput = document.getElementById("form-ajukan-pengembalian");
-        const fileNameDisplay = document.getElementById("fileNameDisplay");
-        const nomor_pinjam = document.getElementById("formInput");
+      // function updateFileNameDisplay() {
+      //   const fileInput = document.getElementById("form-ajukan-pengembalian");
+      //   const fileNameDisplay = document.getElementById("fileNameDisplay");
+      //   const nomor_pinjam = document.getElementById("formInput");
 
-        if (fileInput.files.length > 0) {
-          const fileName = fileInput.files[0].name;
-          fileNameDisplay.textContent = fileName;
-        } else {
-          fileNameDisplay.textContent = "Pilih File";
-        }
-      }
+      //   if (fileInput.files.length > 0) {
+      //     const fileName = fileInput.files[0].name;
+      //     fileNameDisplay.textContent = fileName;
+      //   } else {
+      //     fileNameDisplay.textContent = "Pilih File";
+      //   }
+      // }
 
-      // Assuming you are working in a browser environment
-      const url = "http://localhost:8000/pengembalian";
+      document
+        .getElementById("form-ajukan-pengembalian")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+          const jumlah_pengembalian = document.getElementById("nominal_pembayaran").value;
+          const nomor_peminjaman = document.getElementById("nomor_peminjaman").value;
+          const bukti_bayar = document.getElementById("fileInput").files[0];
 
-      
+          const url = "http://localhost:8000/pengembalian";
 
-      const data = new FormData();
-      data.append("nomor_peminjaman", "value1");
-      data.append("jumlah_pengembalian", "value2");
+          const time_now = new Date();
+          const data = new FormData();
+          data.append("nomor_peminjaman", nomor_peminjaman);
+          data.append("jumlah_pengembalian", jumlah_pengembalian);
+          data.append("bukti_bayar", bukti_bayar, time_now.getTime() + ".jpg");
 
-      // If you have a file to upload
-      const fileInput = document.getElementById("fileInput"); // Replace with your actual file input element
-      const file = fileInput.files[0];
-      data.append("file_field_name", file, "file_name.txt");
-
-      fetch(url, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: data,
-      })
-        .then((response) => response.json())
-        .then((result) => {
-          console.log(result);
+          fetch(url, {
+            method: "POST",
+            body: data,
+          })
+            .then((response) => {
+              console.log(response);
+              window.location.href = "/src/templates/Anggota/anggota-pengembalian.html";
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+            });
         })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
     </script>
   </body>
 </html>

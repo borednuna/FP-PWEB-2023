@@ -232,6 +232,7 @@
               .then(response => response.json())
               .then(data => {
                   // Process the data and create HTML content
+                  console.log(data);
                   const pengembalianDataElement = document.getElementById('pengembalianData');
     
                   if (data && data.length > 0) {
@@ -272,7 +273,7 @@
                                 <h2 class="font-bold text-[#C20C00]">
                                   Sisa Peminjaman:
                                 </h2>
-                                <p class="font-medium">${pengembalian.sisa_pengembalian}</p>
+                                <p class="font-medium">${pengembalian.sisa_pinjaman}</p>
                               </div>
                             </div>
                           </div>
