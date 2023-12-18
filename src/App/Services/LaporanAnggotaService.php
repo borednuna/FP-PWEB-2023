@@ -19,8 +19,11 @@ class LaporanAnggotaService
     {
         $this->laporanAnggotaRepository = new LaporanAnggotaRepository();
 
-        if (isset($_SESSION['nomor_pengguna'])) {
-            $this->nomor_pengguna = $_SESSION['nomor_pengguna'];
+        if (isset($_COOKIE['nomor_pengguna'])) {
+            $this->nomor_pengguna = intval($_COOKIE['nomor_pengguna']);
+
+        } else {
+            $this->nomor_pengguna = null;
         }
     }
 

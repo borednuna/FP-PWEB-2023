@@ -14,13 +14,17 @@ class PeminjamanService
     {
         $this->peminjamanRepository = new PeminjamanRepository();
         
-        if (isset($_SESSION['nomor_pengguna'])) {
-            $this->nomor_pengguna = $_SESSION['nomor_pengguna'];
+        if (isset($_COOKIE['nomor_pengguna'])) {
+            $this->nomor_pengguna = intval($_COOKIE['nomor_pengguna']);
+
+        } else {
+            $this->nomor_pengguna = null;
         }
     }
 
     public function getAll()
     {
+        var_dump($this->nomor_pengguna);
         $result = $this->peminjamanRepository->getAll();
         return $result;
     }

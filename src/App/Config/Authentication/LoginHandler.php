@@ -27,8 +27,8 @@ class LoginHandler
             session_start();
             $_SESSION['nomor_pengguna'] = $nomor_pengguna;
             $_SESSION['role'] = $role;
-            $data = $role;
-            return $data;
+            setcookie("nomor_pengguna", $nomor_pengguna, 0, "/");
+            return $role;
         }
 
         return -1;
