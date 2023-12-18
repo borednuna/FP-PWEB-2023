@@ -50,17 +50,19 @@ class PenggunaRepository
 
     public function getByUsername($username)
     {
-        $query = "SELECT * FROM pengguna WHERE nama LIKE '%$username%'";
+        $query = "SELECT * FROM pengguna WHERE nama LIKE '%$username%' AND role = 'anggota'";
         $result = mysqli_query($this->conn, $query);
-        $row = mysqli_fetch_assoc($result);
-        $pengguna = new Pengguna(
-            1,
-            $row['nama'],
-            $row['email'],
-            $row['password'],
-            $row['alamat'],
-            $row['role']
-        );
+        $pengguna = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $pengguna[] = new Pengguna(
+                $row['nomor_pengguna'],
+                $row['nama'],
+                $row['email'],
+                $row['password'],
+                $row['alamat'],
+                $row['role']
+            );
+        }
         return $pengguna;
     }
 
