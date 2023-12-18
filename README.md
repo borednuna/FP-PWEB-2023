@@ -1,13 +1,13 @@
 # ONLINE COOPERATIVE WEB APP
-This project is made as final project of web programming subject 2023.
+This project is made as the final project of web programming subject 2023.
 
 ## Contributors
 | Name                               | NRP        |
 |------------------------------------|------------|
 | Hanun Shaka Puspa                  | 5025211051 |
-| Dimas Prihady Setiawan             | 5025211084 |
+| Dimas Prihady Setyawan             | 5025211184 |
 
-## Backend Docuemntation
+## Backend Documentation
 [Postman](https://documenter.getpostman.com/view/13055513/2s9Ykj9i5B)
 
 ## To run
